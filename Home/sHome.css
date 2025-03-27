@@ -1,0 +1,489 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+}
+
+/* section ========================================================================= */
+
+
+/* student overview ------------------------------------------------------------ */
+
+#studentOverview {
+  position: relative;
+  display: flex;
+  width: 100vw;
+  min-height: calc(100vh - 85px);
+  border-top: 2px solid black;
+  height: fit-content;
+  top: 0;
+  left: 0;
+  /* overflow: hidden; */
+  background-color: #f5f5f5;
+}
+
+/* sidebarLeft ******************************************************  */
+
+#sideBarLeft {
+  position: relative;
+  display: flex;
+  /* flex-basis: 0; */
+  flex-direction: column;
+  background: linear-gradient(34deg, rgb(19, 229, 236) 0%, rgb(86, 183, 215) 83%, rgb(60, 162, 226) 100%);
+  color: black;
+  border-right: 3px solid black;
+  padding-right: 20px;
+  width: 140px;
+  height: auto;
+  min-height: 500px;
+  padding-bottom: 80px;
+}
+
+/* left side bar backgrounds */
+
+#sideBarLeftBackground {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.createdWave {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  align-items: center;
+  transform-origin: center;
+  opacity: 1;
+
+}
+
+.createdWavePart {
+  position: relative;
+  transform-origin: top center;
+  background: linear-gradient(to bottom, #ffffffc8 0, #ffffff00 100%);
+  z-index: 0;
+  opacity: 1;
+}
+
+/*  left side bar ____________________________________________________ */
+.leftSideBarItems {
+  position: relative;
+  top: 30px;
+  text-align: left;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 15px 10px 15px 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  border: none;
+  background-color: #fafafa;
+  font-weight: 500;
+  color: #000000;
+  cursor: pointer;
+}
+
+.leftSideBarItems:hover {
+  color: #949494;
+}
+
+.leftSideBarItems.selected {
+  color: #1865F2;
+}
+
+/* right side box _______________________________________________ */
+
+#sideBarRight {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 140px);
+  height: fit-content;
+  background-color: #f5f5f5;
+}
+
+#sideBarRightHeaderHolder {
+  position: relative;
+  width: 100%;
+  height: fit-content;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.rightSideBarHeader {
+  position: relative;
+  left: 9px;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+}
+
+.rightSideBarHeader.hide {
+  display: none;
+}
+
+.rightSideBarHeader::after {
+  content: '';
+  bottom: 10px;
+  position: absolute;
+  width: calc(100% + 50px);
+  height: 2px;
+  background-color: #5f6063;
+}
+
+
+#rightSideBarMain {
+  position: relative;
+  container-type: inline-size;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+/*  aplication select --------------------------------------------- */
+
+#applicationsContainer {
+  position: relative;
+  background-color: none;
+  width: 100%;
+  height: 100%;
+}
+
+#applicationBoxContainer {
+  position: relative;
+  margin: 0px 10px 40px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+ /* box for those that applied */
+.applicationBoxPreview {
+  position: relative;
+  width: min(100cqw, 300px);
+  height: 300px;
+  background-color: white;
+  box-shadow: 2px 4px 16px rgba(64, 64, 64, 0.8);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.applicationBoxPreview:hover{
+   box-shadow: 2px 4px 16px 4px rgba(64, 64, 64, 0.8);
+}
+
+/* status  */
+
+.status {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  font-size: 12px;
+  border-radius: 15px;
+  padding: 8px 8px;
+  margin: 15px 15px;
+}
+
+.applied {
+  background-color: blue;
+}
+
+.interviewing {
+  background-color: yellow;
+}
+
+.waitlisted {
+  background-color: gray;
+}
+
+.accepted {
+  background-color: #41e641;
+}
+
+.rejected {
+  background-color: red;
+}
+
+/* Job Title & and Descriptor ------------------------------*/
+
+.jobApplicants{
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  font-size: 18px;
+  margin: 10px 15px 0px 15px;
+}
+
+.jobTitle {
+  margin: 0px 15px;
+  font-size: 24px;
+  width: 200px;
+  height: fit-content;
+}
+
+.jobDescription {
+  position: relative;
+  margin: 15px 15px;
+  width: 270px;
+  height: fit-content;
+  overflow: hidden;
+  
+  
+}
+.jobDescriptionText{
+  position: relative;
+  text-align: left;
+  font-size: 13px;
+  line-height: 115%;
+  
+} 
+
+.jobDescriptionFade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1.0) 0%, rgba(0, 0, 0, 0) 20% ,rgba(0, 0, 0, 0) 100%);
+}
+
+/* ___________________ employers box preveiew */
+
+.employerBoxPreview {
+  position: relative;
+  width: min(100cqw, 300px);
+  height: 300px;
+  background-color: white;
+  box-shadow: 2px 4px 16px rgba(64, 64, 64, 0.8);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.employerBoxPreview:hover {
+  box-shadow: 2px 4px 16px 4px rgba(64, 64, 64, 0.8);
+}
+
+/* Status */
+.status.open {
+  background-color: #3498db;
+  color: white;
+}
+
+.status.closed {
+   background-color: #313030;
+   color: white;
+}
+
+/* Applicants Count */
+.jobApplicants {
+  position: relative;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 15px 0px 15px;
+  color: #333;
+}
+
+/* _________________ Generic box  */
+.jobPostingBox {
+  position: relative;
+  width: min(100cqw, 300px);
+  height: auto;
+  background-color: white;
+  box-shadow: 2px 4px 16px rgba(64, 64, 64, 0.8);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  
+}
+
+.jobPostingBox:hover {
+  box-shadow: 2px 4px 16px 4px rgba(64, 64, 64, 0.8);
+}
+
+.jobPostingBox .jobTitle{
+  margin-top: 20px;
+}
+
+/* Company Name */
+.companyName {
+  font-size: 16px;
+  color: #666;
+  margin:10px 0px 8px 20px;
+}
+
+/* Apply Button */
+.applyButton {
+  margin: auto 13px 20px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.applyButton:hover {
+  background-color: #0056b3;
+}
+
+/* __________________box that acts as call to action button to had more boxes  */
+
+.applicationBoxAddMore{
+  position: relative;
+  width: min(100cqw, 300px);
+  height: 300px;
+  background-color: white;
+  box-shadow: 2px 4px 16px rgba(64, 64, 64, 0.8);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.applicationBoxAddMore:hover{
+   box-shadow: 2px 4px 16px 4px rgba(64, 64, 64, 0.8);
+}
+
+.applicationBoxAddMore:hover .applicationBoxAddMoreSign{
+   rotate: 90deg;
+   color: #1865F2;
+}
+
+.applicationBoxAddMoreSign{
+  font-size: 80px;
+  color: #48494c;
+  transition: rotate 0.3s ease-in, color 0.3s ease-in;
+}
+
+
+
+/* preferences select ------------------------------*/
+
+#preferencesContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+}
+
+/* Contacts stuff */
+
+#contactContainer {
+  display: none;
+}
+
+.contactItems {}
+
+/* Tutorials stuff */
+
+#tutorialsContainer {
+  display: none;
+}
+
+.tutorialsItems {}
+
+
+/*  popup */
+#popup {
+  z-index: 1;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: min(100cqw, 300px);
+  height: auto;
+  flex-direction: column;
+  gap: 15px;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: white;
+}
+
+#overlay {
+  z-index: 1;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.search-trigger {
+  display: inline-block;
+  padding: 10px;
+  background: #f0f0f0;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  width: 150px;
+}
+
+.search-trigger:hover {
+  background: #e0e0e0;
+}
+
+#optionsContainer {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#optionsContainer div {
+  padding: 5px;
+  cursor: pointer;
+}
+
+#optionsContainer div:hover {
+  background: #f0f0f0;
+}
+
+
+.selectedOptions{
+  background-color: #f0f0f0;
+  color: gray;
+}
+
+#closePopupBtn {
+  background-color: rgb(211, 207, 207);
+  cursor: pointer;
+}
+ */
+/* place holder section just a place holder to scroll ---------------------------------------- */
+
+#placeHolderSection{
+  position: relative;
+  width: 100%;
+  height: 500px;
+  background-color: white;
+  border-top: 2px solid black;
+}

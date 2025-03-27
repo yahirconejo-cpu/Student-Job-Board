@@ -1,0 +1,184 @@
+/* nav bar ================================================================  */
+
+#navBar {
+  position:relative;
+  background: rgb(255, 255, 255);
+  width: 100vw;
+  height: 80px;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+#largeNav{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#navButtons{
+    position: absolute;
+    right:0;
+    display:flex;
+    width: auto;
+    height: fit-content;
+    align-items: center;
+    margin-right: 40px;
+}
+
+ #navButtons::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom: 0px;
+    height:2px;
+    border-radius: 2px;
+    scale: var(--_width, 0.125) 1 ;
+    translate: var(--_left, 100%) 0;
+    opacity: var(--_opa, 0);
+    transition: scale 500ms, translate 500ms, opacity var(--_opaTrans, 200ms);
+    transform-origin:left;
+    background-color: black;
+}
+
+#navButtons div{
+    position: relative;
+    padding: 7px 10px;
+    border-radius: 10px;
+    margin-right: 5px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#navButtons div:not(#currentlyOn) a{
+    text-decoration: none;
+    color: black;
+}
+
+#currentlyOn{
+    background-color: #1865F2;
+}
+
+#currentlyOn a{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* small nav*/
+
+#smallNav{
+    position: relative;
+    display:none;
+    width: 100vw;
+    height: 100%;
+}
+
+
+#burgerNav{
+  position: absolute;
+  top: 0;
+  right: 50px;
+  width: 40px;
+  height: 100%;
+  transition: opacity 0.2s ease-in-out, right 0.5s ease-in-out ;
+  cursor: pointer;
+}
+
+#burger {
+    position: relative;
+    top: 50%;
+    translate: 0 -50% ;
+    width: 30px;
+    height: 3px;
+    background-color: black;
+    border-radius: 10px;
+    transition: all .5s ease-in-out;
+}
+#burger::before, 
+#burger::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background-color: inherit;
+    border-radius: 10px;
+    transition: all .5s ease-in-out;
+}
+#burger::before {
+    transform: translateY(-10px);
+}
+
+#burger::after{
+    transform: translateY(10px);
+}
+
+#burgerNav.BNopen #burger {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+#burgerNav.BNopen #burger::before {
+    transform: rotate(45deg);
+    background-color: rgb(153, 5, 5);
+}
+
+#burgerNav.BNopen #burger::after{
+    transform: rotate(-45deg);
+    background-color: rgb(208, 4, 4);
+}
+
+#overlayContainer{
+    position: relative;
+    width: 100vw;
+    display:flex;
+    justify-content: center;
+}
+
+#burgerOverlay{
+    border-top: none;
+    width: fit-content;
+    background-color: white;
+    height: fit-content;
+    max-height: 0px;
+    transition: max-height 500ms;
+}
+
+#burgerOverlay a{
+    text-decoration: none;
+    font-family: sans-serif ;
+    color: black;
+    pointer-events: none;
+}
+
+#burgerOverlay div{
+    padding: 5px 60vw 5px 10px;
+    margin: 5px 6px;
+    opacity: 0;
+    transition: background 500ms, opacity 500ms;
+}
+
+#burgerOverlay div:not(#currentlyOnBurgerNav):hover{
+    background-color: #e8e8e8;
+}
+
+#currentlyOnBurgerNav{
+    background-color: #d5d9ed;
+    padding: 5px 2px;
+    border-radius: 2px;
+}
+
+
+
+@media (max-width: 650px){
+    #largeNav{
+        display:none;
+    }
+    #smallNav{
+        display:block;
+    }
+    #navLogo img{
+        margin-left: 5.5vw;
+    }
+}

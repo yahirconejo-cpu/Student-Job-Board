@@ -1,0 +1,341 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* #mousePointer{
+  position: fixed;
+  left: -100px;
+  z-index: 900;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: white;
+} */
+
+/* section 1 layer ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+
+#section1 {
+  position: relative;
+  width: 100vw;
+  height: calc(100vh - 40px);
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+}
+
+#background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+/* background rock layer **************************************************************** */
+
+#rockLayer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+/* rock container class */
+
+.rockDivCont {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  width: 200px;
+  height: 200px;
+}
+
+/* rock 1 ----------------------------------------------- */
+.rock1Piece1 {
+  position: absolute;
+  border-radius: 55% 63% 30% 70% / 60% 40% 60% 40%;
+  transform: translateY(-40px) translateX(-40px);
+  background-color: #5a5858;
+  box-shadow: inset 2px -4px 4px 0px #1c3814;
+  width: 50px;
+  height: 50px;
+}
+
+.rock1Piece2 {
+  position: absolute;
+  border-radius: 55% 63% 30% 70% / 60% 40% 60% 40%;
+  transform: translateY(-40px) translateX(-20px);
+  background-color: #5a5858;
+  box-shadow: inset -2px 0px 3px 0px #1c3814;
+  width: 60px;
+  height: 60px;
+}
+
+.rock1Piece3 {
+  position: absolute;
+  border-radius: 55% 63% 30% 70% / 60% 40% 60% 40%;
+  transform: translateY(-10px) translateX(20px) rotate(25deg);
+  background-color: #5a5858;
+  box-shadow: inset -3px -2px 8px 0px #1c3814;
+  width: 20px;
+  height: 50px;
+}
+
+.rock1Piece4 {
+  position: absolute;
+  border-radius: 55% 63% 30% 70% / 60% 40% 60% 40%;
+  transform: translateY(-10px) translateX(-20px) rotate(25deg);
+  background-color: #5a5858;
+  box-shadow: inset 0px -2px 2px 0px #1c3814;
+  width: 20px;
+  height: 30px;
+}
+
+.rock1Piece5 {
+  position: absolute;
+  border-radius: 55% 63% 30% 70% / 60% 40% 60% 40%;
+  transform: translateY(20px) translateX(-30px) rotate(90deg);
+  background-color: #5a5858;
+  box-shadow: inset -2px -2px 5px 0px #1c3814;
+  width: 20px;
+  height: 30px;
+}
+
+.rock1Piece6 {
+  position: absolute;
+  border-radius: 53% 40% 33% 42% / 29% 40% 8% 46%;
+  transform: translateY(-40px) translateX(-28px) rotate(-10deg);
+  background-color: #142801;
+  box-shadow: inset -1px 1px 18px 0px #229b03;
+  width: 53px;
+  height: 42px;
+  opacity: 0.9;
+  filter: blur(3px);
+}
+
+/* rock 2 ------------------------------------------------------ */
+
+.rock2Piece1 {
+  position: absolute;
+  border-radius: 100% 100% 100% 0% / 0% 100% 100% 40%;
+  transform: translateY(25px) translateX(25px);
+  rotate: 140deg;
+  background-color: #5a5858;
+  box-shadow: inset -3px 0px 8px 0px #1c3814;
+  width: 80px;
+  height: 40px;
+}
+
+.rock2Piece2 {
+  position: absolute;
+  border-radius: 23% 76% 19% 58% / 49% 73% 25% 40%;
+  transform: translateY(0px) translateX(-10px);
+  background-color: #5a5858;
+  box-shadow: inset -3px 0px 8px 0px #1c3814;
+  width: 50px;
+  height: 95px;
+}
+
+.rock2Piece3 {
+  position: absolute;
+  border-radius: 23% 76% 19% 58% / 49% 73% 25% 40%;
+  transform: translateY(-40px) translateX(-15px);
+  background-color: #5a5858;
+  box-shadow: inset 0px 10px 7px 0px #1c3814;
+  width: 40px;
+  height: 75px;
+}
+
+.rock2Piece4 {
+  position: absolute;
+  border-radius: 55% 63% 30% 70% / 60% 40% 60% 40%;
+  transform: translateY(-40px) translateX(40px) rotate(-25deg);
+  background-color: #5a5858;
+  box-shadow: inset -3px -2px 8px 0px #1c3814;
+  width: 20px;
+  height: 50px;
+}
+
+.rock2Piece5 {
+  position: absolute;
+  border-radius: 53% 40% 33% 42% / 29% 40% 8% 46%;
+  transform: translateY(10px) translateX(-14px) rotate(-10deg);
+  background-color: #142801;
+  box-shadow: inset -1px 2px 18px 0px #229b03;
+  width: 33px;
+  height: 52px;
+  opacity: 0.6;
+  filter: blur(3px);
+}
+
+.rock2Piece6 {
+  position: absolute;
+  border-radius: 53% 40% 33% 42% / 29% 40% 8% 46%;
+  transform: translateY(-30px) translateX(-14px) rotate(-10deg);
+  background-color: #366907;
+  box-shadow: inset -1px 2px 18px 0px #174e09;
+  width: 33px;
+  height: 52px;
+  opacity: 0.3;
+  filter: blur(3px);
+}
+
+/* rock 3 ------------------------------------------------------- */
+
+.rock3Piece1 {
+  position: absolute;
+  border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+  transform: translateY(25px) translateX(25px);
+  rotate: 140deg;
+  background-color: #5a5858;
+  width: 30px;
+  height: 70px;
+}
+
+.rock3Piece2 {
+  position: absolute;
+  border-radius: 53% 40% 33% 42% / 29% 40% 8% 46%;
+  transform: translateY(0px) translateX(-14px) rotate(40deg);
+  background-color: #5a5858;
+  width: 33px;
+  height: 52px;
+}
+
+.rock3Piece3 {
+  position: absolute;
+  border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+  transform: translateY(50px) translateX(-25px);
+  rotate: -70deg;
+  background-color: #5a5858;
+  width: 40px;
+  height: 80px;
+}
+
+.rock3Piece4 {
+  position: absolute;
+  border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+  transform: translateY(-25px) translateX(35px);
+  background-color: #5a5858;
+  width: 18px;
+  height: 20px;
+}
+
+.rock3Piece5 {
+  position: absolute;
+  border-radius: 53% 40% 33% 42% / 29% 40% 8% 46%;
+  transform: translateY(100px) translateX(100px) rotate(0deg);
+  width: 33px;
+  height: 52px;
+}
+
+/* Fish Layer ***************************************************************** */
+
+#fishLayer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+/*  Ocean Layer *************************************************************** */
+
+#oceanLayer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #1ecfd5;
+  background: linear-gradient(34deg, rgba(2, 0, 36, 1) 0%, rgba(0, 161, 202, 1) 17%, rgba(30, 207, 213, 1) 25%, rgba(30, 207, 213, 1) 78%, rgba(2, 170, 227, 1) 83%, rgb(22, 22, 114) 100%);
+  opacity: 0.6;
+}
+
+/*  waves -------------------------------- */
+
+#waveCont {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.createdWave {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  align-items: center;
+  transform-origin: center;
+  opacity: 1;
+
+}
+
+.createdWavePart {
+  position: relative;
+  transform-origin: top center;
+  background: linear-gradient(to bottom, #ffffffc8 0, #ffffff00 100%);
+  z-index: 0;
+  opacity: 1;
+}
+
+
+/* Sign up layer ******************************************************************************** */
+
+#signInLayer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+#signInDiv {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  background-color: rgba(255, 255, 255, 1);
+  /* box-shadow: 0px 0px 17px 2px rgba(11, 15, 39, 0.664); Will have to change in the Javascript search for signInDivShadowMove() function */
+  border-radius: 2px;
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.signInInput {
+  position: relative;
+  width: calc(100% - 60px);
+  height: 20px;
+  outline: none;
+  border: none;
+  font-size: 15px;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+#username {
+  margin-top: 80px;
+}
+
+/* section 2 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+
+#section2 {
+  position: relative;
+  width: 100vw;
+  height: 800px;
+  background-color: rgb(250, 250, 250);
+}
