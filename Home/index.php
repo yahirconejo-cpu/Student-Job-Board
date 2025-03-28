@@ -30,7 +30,7 @@
       <div id="sideBarLeftBackground"></div>
       <!-- click buttons -->
       <button name="applications" type="button" class="leftSideBarItems selected">Applications</button>
-      <button name="preferences" type="button" class="leftSideBarItems">Preferences</button>
+      <button name="preferences" type="button" class="leftSideBarItems">Preferences!</button>
       <button name="contact" type="button" class="leftSideBarItems">Contacts</button>
       <button name="tutorials" type="button" class="leftSideBarItems">Tutorials</button>
     </div>
