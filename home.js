@@ -198,6 +198,7 @@ function waveMovement(minSpeed, maxSpeed, minIntervalTime = null, maxIntervalTim
 
     // Wave creation 
     var windowDiagonalLength = Math.sqrt(Math.pow(window.innerWidth, 2) + Math.pow(window.innerHeight, 2));
+    windowDiagonalLength = (windowDiagonalLength > 700 ? 700 : windowDiagonalLength); // set max wave length -----------------------------------------------
     var createdWaveWidth = Math.floor(Math.random() * (windowDiagonalLength - 300) + 300);
     var createdWavePeriod = ((Math.random() * (2.5 - 1.2)) + 1.2);
     var createdWaveAmpitude = (createdWaveWidth * 0.15) / (createdWavePeriod);
@@ -466,3 +467,24 @@ function signInDivShadowMove(mouseXPos, mouseYPos, offsetFromElementEdge, minOff
 document.addEventListener("mousemove", (e)=>{
     signInDivShadowMove(e.clientX, e.clientY, 400, -10, 10);
 });
+
+
+function userSignIn(){
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    let checkInputs =  checkUN(username) + checkPW(password);
+    if(checkInputs.trim() != ""){
+        alert(checkInputs+ "cool");
+    }else{
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "login.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert(xhr.responseText);
+            }
+        };
+        xhr.send(`username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
+    }
+}

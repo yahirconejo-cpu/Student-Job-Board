@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>school search</title>
   <link href="home.css" rel="stylesheet">
 </head>
@@ -75,19 +75,24 @@
     </div>
     <div id="signInLayer">
       <div id="signInDiv">
-        <input type="text" placeholder="Username" id="username" class="signInInput">
-        <input type="password" placeholder="Password" id="password" class="signInInput">
-        <button id="signInButton">Sign In</button>
+        <h3>Sign In</h3>
+        <div class="signInInputTitle">Username:</div>
+        <input type="text" placeholder="Username..." id="username" class="signInInput">
+        <div class="signInInputTitle">Password:</div>
+        <input type="password" placeholder="Password..." id="password" class="signInInput">
+        <button id="signInButton" onclick="userSignIn();">Sign In</button>
       </div>
     </div>
   </div>
   <div id="section2">
-    <!-- testing 2 -->
-    <!-- My change 3 -->
-
-    <!-- jmdaskljalkjasjklkjfasjfkasl -->
-     <!-- hi -->
+    <div id="section2InfoText">
+        <h1>Trouble Signing in?</h1>
+        <p>Contact your school cousuler</p>
+        <h1>Want to Sign up?</h1>
+        <p> Are you a company and need some extra help? You can contact (school name) at (email) to put job postings</p>
+    </div>
   </div>
+  <script src="allFunctions/Sanitization/checkValidInputs.js"></script>
   <script src="home.js"></script>
 </body>
 

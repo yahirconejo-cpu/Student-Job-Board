@@ -211,17 +211,22 @@ function checkIfValid() {
     let password = document.getElementsByName("password")[0].value;
     let userType = document.getElementById("userType").value;
 
-    error  = checkUN(username == undefined ? "" : username) + "\n" + checkPW(password == undefined ? "" : password);
-    if (error.trim() != "") {
+    let error = checkUN(username == undefined ? "" : username) + "\n" + checkPW(password == undefined ? "" : password);
+    if (error.trim() !== "") {
         alert(error);
     } else {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", `createAccounts.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&userType=${encodeURIComponent(userType)}`, true);
+        xhr.open("POST", "createAccounts.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        let params = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&userType=${encodeURIComponent(userType)}`;
+        
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText);
+                alert(xhr.responseText);
             }
         };
-        xhr.send();
+
+        xhr.send(params);
     }
 }
