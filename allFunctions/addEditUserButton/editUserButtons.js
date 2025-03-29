@@ -6,11 +6,11 @@ var openedPreference;
 
 
 // makes element pop up show up
-function openPopup(name, type, ifSearchBar, popupName, popupHeader, clickedEl) {
+function openPopup(name, type, ifSearchBar, popupName, popupHeader, clickedEl, user) {
     document.getElementById(popupName).style.display = "flex";
     document.getElementById(popupName + "popUpOverlay").style.display = "block";
     openedPreference = document.getElementById(clickedEl.getAttribute("name"));
-    inputOptions(name, type, ifSearchBar == 'true', popupName, popupHeader == 'null' ? null : popupHeader);
+    inputOptions(name, type, ifSearchBar == 'true', popupName, popupHeader == 'null' ? null : popupHeader, user);
 }
 
 // closes popup and displays the results
@@ -20,14 +20,19 @@ function closePopup(popupName) {
 }
 
 // update user chosen preferences
-function updateChosenOptions(option, chosenList, isChecked,  definedOpenedUserButton = null) {
+function updateChosenOptions(option, chosenList, isChecked,  definedOpenedUserButton = null, user) {
     // update list
     if (isChecked) {
         if (!chosenList.includes(option)) {
             chosenList.push(option);
+            // add to data base ie: grab info and send new info back
+
         }
     } else {
         chosenList.splice(chosenList.indexOf(option), 1);
+        // remove from data base ie: grab info and send new info back
+
+
     }
 
     
@@ -80,7 +85,7 @@ function updateChosenOptions(option, chosenList, isChecked,  definedOpenedUserBu
 }
 
 // createCheckboxes 
-function createCheckbox(option, container, chosenList) {
+function createCheckbox(option, container, chosenList, user) {
     let label = document.createElement("label");
     let checkbox = document.createElement("input");
 
@@ -89,7 +94,7 @@ function createCheckbox(option, container, chosenList) {
     checkbox.checked = chosenList.includes(option);
 
     checkbox.addEventListener("change", function() {
-        updateChosenOptions(option, chosenList, checkbox.checked);
+        updateChosenOptions(option, chosenList, checkbox.checked, user);
     });
 
     label.appendChild(checkbox);
@@ -100,7 +105,7 @@ function createCheckbox(option, container, chosenList) {
 }
 
 // createSearchList
-function createSearchList(option, container, chosenList) {
+function createSearchList(option, container, chosenList, user) {
     let optionItem = document.createElement("div");
     optionItem.textContent = option;
     optionItem.classList.add("currentOptions");
@@ -111,7 +116,7 @@ function createSearchList(option, container, chosenList) {
 
     optionItem.addEventListener("click", function() {
         optionItem.classList.toggle("selectededitUserButtonsOptions");
-        updateChosenOptions(option, chosenList, optionItem.classList.contains("selectededitUserButtonsOptions"));
+        updateChosenOptions(option, chosenList, optionItem.classList.contains("selectededitUserButtonsOptions"), user);
     });
 
     container.appendChild(optionItem);
@@ -121,7 +126,7 @@ function createSearchList(option, container, chosenList) {
 // parm 1 @ option - list of the presete options or allowed boxes
 // parm 2 @ container - container that the input box will be added to
 // parm 3 @ currentData - list of all the data that the user has chosen or added
-function createInputBox(option, container, currentData) {
+function createInputBox(option, container, currentData, user) {
 
     let inputBox = document.createElement("input");
     inputBox.type = "text";
@@ -145,11 +150,11 @@ function createInputBox(option, container, currentData) {
         if (trimmedValue) {
             // Ensure currentData[index] is updated or added correctly
             currentData[index] = trimmedValue;
-            updateChosenOptions(trimmedValue, currentData, true);
+            updateChosenOptions(trimmedValue, currentData, true, user);
         } else {
             // If input is empty, remove from currentData and update choices
             let removedValue = currentData[index]; 
-            updateChosenOptions(removedValue, currentData, false);
+            updateChosenOptions(removedValue, currentData, false, user);
         }
     });
 
@@ -157,7 +162,7 @@ function createInputBox(option, container, currentData) {
 }
 
 // create searchList with headers
-function createSearchListWithHeaders(option, container, chosenList) {
+function createSearchListWithHeaders(option, container, chosenList, user) {
     for (var key in option) {
         let optionHeader = document.createElement("h4");
         optionHeader.innerHTML = key;
@@ -198,7 +203,7 @@ function filterOptions(searchInput, container, chosenList, allList, chosenType) 
     }
 }
 
-function inputOptions(name, type, ifSearchBar, popupName, popupHeader) {
+function inputOptions(name, type, ifSearchBar, popupName, popupHeader, user) {
 
     // updates chosen type
     userChosenType = type;
@@ -209,7 +214,7 @@ function inputOptions(name, type, ifSearchBar, popupName, popupHeader) {
     if (userPreferences[name] == undefined) {
         // need to be a query to get all possible options
         // let xhr = new XMLHttpRequest();
-        // xhr.open("GET", "testDatabase.txt", true);
+        // xhr.open("GET", "testDatabase.txt", true);//
         // xhr.onreadystatechange = function () {
         //     if (xhr.readyState === 4 && xhr.status === 200) {
         //         userPreferences[name] = textXHR.responseText;
@@ -281,13 +286,13 @@ function inputOptions(name, type, ifSearchBar, popupName, popupHeader) {
 
     // addes data into element
     if (type == "checkbox") {
-        userPreferences[name].forEach(option => createCheckbox(option, optionsContainer, userPreferences[nameChosen]));
+        userPreferences[name].forEach(option => createCheckbox(option, optionsContainer, userPreferences[nameChosen], user));
     } else if (type == "searchList") {
-        userPreferences[name].forEach(option => createSearchList(option, optionsContainer, userPreferences[nameChosen]));
+        userPreferences[name].forEach(option => createSearchList(option, optionsContainer, userPreferences[nameChosen], user));
     } else if (type == "searchListWithHeaders") {
-        createSearchListWithHeaders(userPreferences[name], optionsContainer, userPreferences[nameChosen]);
+        createSearchListWithHeaders(userPreferences[name], optionsContainer, userPreferences[nameChosen], user);
     } else if (type == "inputBox") {
-        userPreferences[name].forEach(option => createInputBox(option, optionsContainer, userPreferences[nameChosen]));
+        userPreferences[name].forEach(option => createInputBox(option, optionsContainer, userPreferences[nameChosen], user));
     }
 
 }
@@ -322,14 +327,15 @@ function loadDataForEditUserButtons(allData, chosenData, name, container) {
 // parm 4 @ type - string - the type of button that will be created: checkbox, searchList, searchListWithHeaders, inputBox.
 // parm 5 @ ifSearchBar - boolean - if the popup will have a search bar
 // parm 6 @ popupName - string - the name of the popup that will be created. This has to be the same name as you give to createPreferenceSelectPopups() function
-// parm 7 @ popupHeader - string - the header of the popup that will be created. place null if you dont want a header.
+// parm 7 @ popupHeader - string - the header of the popup that will be created. place null if you dont want a header.//
 // parm 8 @ loadAllData - array / object - if you want to load possible options that the user can choose from. null if you dont want to load possible options.
 // parm 9 @ loadChosenData - array - if you want to load the data that the user has chosen before. null if you dont want to load the data.
-function createPreferenceSelectElements(header, elName, colName, type, ifSearchBar = true, popupName, popupHeader = null, loadAllData = null, loadChosenData = null) {
+// param 10 @ user - string - username of user to edit ie: checks access level (admin only)
+function createPreferenceSelectElements(header, elName, colName, type, ifSearchBar = true, popupName, popupHeader = null, loadAllData = null, loadChosenData = null, user = null) {
     let PreferenceSelectElementsBtn = document.createElement("div");
     PreferenceSelectElementsBtn.setAttribute("name", "selected" + elName);
     PreferenceSelectElementsBtn.classList.add("userEditButtons");
-    PreferenceSelectElementsBtn.setAttribute("onclick", "openPopup('" + colName + "', '" + type + "','" + ifSearchBar + "','" + popupName + "','" + popupHeader + "', this)");
+    PreferenceSelectElementsBtn.setAttribute("onclick", "openPopup('" + colName + "', '" + type + "','" + ifSearchBar + "','" + popupName + "','" + popupHeader + "', this,"+user+")");
 
     let PreferenceSelectElementsHeader = document.createElement("h4");
     PreferenceSelectElementsHeader.innerHTML = header + "<span class='userEditButtonPlusSigns'>+</span>";

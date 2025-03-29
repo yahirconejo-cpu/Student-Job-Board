@@ -1,5 +1,5 @@
 <?php
-  ifset($_GET['table']) {
+  if(isset($_GET['table'])) {
     $myPDO = new PDO('sqlite:../TestDatabase/test.db');
     $options = $myPDO->query("select".$_GET['table']."from Jobs");
 
