@@ -1,9 +1,9 @@
 <?php
     include("../allFunctions/Sanitization/checkValidInputs.php");
-
+    include("../allFunctions/connectPDO.php");
     if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['userType'])) {
         if (!sanitizeString($_POST['username']) || !sanitizePW($_POST['password']) || !sanitizeString($_POST['userType'])) {
-            die("Stop hacking my client");
+            die("Stop hacking my database");
         }
     
         $validUserTypes = ['student', 'employer', 'admin'];
@@ -12,7 +12,7 @@
         }
     
         try {
-            $myPDO = new PDO('sqlite:../Database/Website2.db');
+            $myPDO = connectedPDO();
     
             // Check if username already exists
             $stmt = $myPDO->prepare("SELECT COUNT(*) FROM Users WHERE username = :username");

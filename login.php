@@ -1,5 +1,7 @@
 <?php
+
 include("./allFunctions/Sanitization/checkValidInputs.php");
+include("./allFunctions/connectPDO.php");
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
@@ -10,28 +12,27 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     }
 
     try {
-        $myPDO = new PDO('sqlite:./Database/Website2.db');
+        $myPDO = connectedPDO();
 
-        // Secure SQL Query
-        $stmt = $myPDO->prepare("SELECT id, password FROM Users WHERE username = :username");
-        $stmt->execute([':username' => $username]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $ifUniqueUN = $myPDO->prepare("SELECT id, password FROM Users WHERE username = :username");
+        $ifUniqueUN ->execute([':username' => $username]);
+        $user = $ifUniqueUN ->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            $storedPassword = $user['password'];
-            $salt = substr($storedPassword, 0, 64); // Extract the salt (first 64 hex characters)
+
+            $salt = substr($user['password'], 0, 64); // Extract the salt (first 64 hex characters)
 
             $saltedPassword = $salt . $password;
             $hashedPassword = hash('sha512', $saltedPassword);
             
-            // Correct password format: SALT + HASH
+            
             $computedPassword = $salt . $hashedPassword;
 
-            // Compare against stored password
-            if ($computedPassword === $storedPassword) {
+            if ($computedPassword === $user['password']) {
                 echo 'signed in';
             } else {
-                echo 'password wrong';
+                echo 'username or password wrong';
             }
         } else {
             echo 'username or password wrong';
@@ -39,4 +40,9 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     } catch (PDOException $e) {
         echo 'database error';
     }
+}
+
+function createSession($userid) {
+
+
 }
