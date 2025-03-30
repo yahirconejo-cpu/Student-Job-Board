@@ -224,9 +224,53 @@ function checkIfValid() {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 alert(xhr.responseText);
+                updateKnownUsers();
             }
         };
 
         xhr.send(params);
+
+        // clear input
+        username = "";
+        password = "";
     }
 }
+
+function updateKnownUsers(){
+    let userContainer = document.getElementById("confirmedUser");
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "./grabCurrentAccounts.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+
+            let users = JSON.parse(xhr.responseText); 
+
+            userContainer.innerHTML = ""; 
+
+            users.forEach(user => {
+                let userDiv = document.createElement("div");
+                userDiv.classList.add("eachConfirmedUser");
+
+                let userName = document.createElement("div");
+                userName.classList.add("eachConfirmedUserName");
+                userName.textContent = user.username; 
+                userDiv.append(userName);
+
+                let userType = document.createElement("div");
+                userType.classList.add("eachConfirmedType");
+                userType.textContent = user.usertype; 
+                userDiv.append(userType);
+
+                userContainer.append(userDiv);
+            });
+
+        }
+    };
+
+    xhr.send();
+}
+
+updateKnownUsers();

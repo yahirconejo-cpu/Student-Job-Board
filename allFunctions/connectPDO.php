@@ -1,6 +1,6 @@
 <?php
     function connectedPDO() {
-        $dbPath = __DIR__ . '/Database/Website2.db';
+        $dbPath = '/workspaces/TheKnow/Database/Website2.db';
         try {
             $pdo = new PDO('sqlite:' . $dbPath);
             return $pdo;

@@ -1,5 +1,14 @@
 <?php
-  include("../allFunctions/createNavBar/createNavBar.php");
+  include_once("../allFunctions/createNavBar/createNavBar.php");
+
+  // check if signed in
+  //include_once("../allFunctions/checks/checkLogin.php");
+
+  // check to see if they are students or employers
+  include_once("../allFunctions/checks/fetchUserInfo.php");
+
+  $userType = returnUserType();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -468,7 +468,7 @@ document.addEventListener("mousemove", (e)=>{
     signInDivShadowMove(e.clientX, e.clientY, 400, -10, 10);
 });
 
-
+// sign in function _______________________________________________________________________________
 function userSignIn(){
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
@@ -482,7 +482,15 @@ function userSignIn(){
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                alert(xhr.responseText);
+                let response = JSON.parse(xhr.responseText);
+                alert(response.message);
+                if(response.success){
+                    if(response.usertype == "admin"){
+                        window.location.href = "./Admin/";
+                    }else{
+                        window.location.href = "./Home/";
+                    }
+                }
             }
         };
         xhr.send(`username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);

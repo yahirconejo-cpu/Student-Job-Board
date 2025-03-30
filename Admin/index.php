@@ -58,11 +58,15 @@
                     <button type="button" onclick="checkIfValid();">Submit!</button>
                 </form>
             </div>
-            <div id="confirmUser">
-
+            <div id="confirmedUser">
+                <div class="eachConfirmedUser">
+                  <div class="eachConfirmedUserName">bob</div>
+                  <div class="eachConfirmedType">student</div>
+                </div>
             </div>
         </div>
       </div>
+
     </div>
 
   </div>
