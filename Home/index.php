@@ -172,10 +172,10 @@
             // parm 7 @ popupHeader - string - the header of the popup that will be created. place null if you dont want a header.
             // parm 8 @ loadAllData - array / object - if you want to load possible options that the user can choose from. null if you dont want to load possible options.
             // parm 9 @ loadChosenData - array - if you want to load the data that the user has chosen before. null if you dont want to load the data.
-            createPreferenceSelectElements("Add Job Titles", "jobTitles", "title", "searchList", true ,"PreferencePopup", null,  ["apple", "banana", "cherry", "date", "elderberry"], ["apple", "cherry", "elderberry"]);
-            createPreferenceSelectElements("Add Job Types", "jobTypes", "types", "checkbox", true ,"PreferencePopup");
-            createPreferenceSelectElements("Add Job Schedules ", "jobSchedules", "schedule", "searchListWithHeaders" , true ,"PreferencePopup");
-            createPreferenceSelectElements("Input box", "inputJob", "rand", "inputBox", false ,"PreferencePopup", "Input Stuff", ["Place"], null);
+            createPreferenceSelectElements("Add Job Titles", "jobTitles", "jobtitles", "searchList", true ,"PreferencePopup", null);
+            createPreferenceSelectElements("Add Job Types", "jobTypes", "jobtypes", "checkbox", true ,"PreferencePopup");
+            createPreferenceSelectElements("Add Job Schedules ", "jobSchedules", "jobdays", "checkbox" , true ,"PreferencePopup");
+            //createPreferenceSelectElements("Input box", "inputJob", "rand", "inputBox", false ,"PreferencePopup", "Input Stuff",);
             // create popupElement
             // parm 1 @ elName - string - the id of the popup / name of the popup
             createPreferenceSelectPopups("PreferencePopup");

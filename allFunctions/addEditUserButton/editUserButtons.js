@@ -45,9 +45,20 @@ function updateChosenOptions(option, chosenList, isChecked,  definedOpenedUserBu
 
     // Find list of all pos choces
     let originalKey = Object.keys(userPreferences).find(key => userPreferences[key] === chosenList);
-    let allListKey = originalKey.replace("chosen", ""); // Remove "chosen" from key name
+    let allListKey = originalKey.replace("perfered", ""); // Remove "perfered" from key name
     var allList = userPreferences[allListKey];
 
+    let chosenListJson = JSON.stringify(chosenList);
+
+    let updateChosenOptions = new XMLHttpRequest();
+    updateChosenOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
+    updateChosenOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    updateChosenOptions.onreadystatechange = function () {
+        console.log(updateChosenOptions.responseText);
+    };
+    
+    updateChosenOptions.send(`edit=${encodeURIComponent(chosenListJson)}&column=${originalKey}`);
+    
 
     if (typeof allList === "object" && !Array.isArray(allList)) {
 
@@ -212,46 +223,53 @@ function inputOptions(name, type, ifSearchBar, popupName, popupHeader, user) {
     // stores all possible user data into userPreferences if not currently there
     // gets data from possible options table
     if (userPreferences[name] == undefined) {
-        // need to be a query to get all possible options
-        // let xhr = new XMLHttpRequest();
-        // xhr.open("GET", "testDatabase.txt", true);//
-        // xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === 4 && xhr.status === 200) {
-        //         userPreferences[name] = textXHR.responseText;
-        //     }
-        // };
-        // textXHR.send();
+        // I need this is querying the SettingsOptions table with the collume name and setting userPreferences[name] equle to the options set in it
+        // In the database in the table I will formate the text to look like a list for dictionary so that it matches with the placeholder lists
+        // name is just a varible that is a string
+        // the php that it will access is called editUserButtons.php
 
-        // PlaceHolder lists
-        // for normal lists
-        userPreferences[name] = ["Full-Time", "Part-Time", "Internship", "Temporary", "Contract"];
+        let getPosOptions = new XMLHttpRequest();
+        getPosOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
+        getPosOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        getPosOptions.onreadystatechange = function () {
+            userPreferences[name] = getPosOptions.responseText;
+        };
+        getPosOptions.send(`table=SettingsOptions&column=${name}`);
 
-        // for lists if you want headers
-        if (type == "searchListWithHeaders") {
-            userPreferences[name] = { "Days": ["Monday to Friday", "Weekends as needed", "Weekends Only", "No weekends", "Holidays"], "Shifts": ["After school", "4 hour shift", "8 hour shift", "10 hour shift", "12 hour shift", "Day shift", "Night shift", "Evening shift", "No nights", "Overnight shift"] };
-        } else if (type == "inputBox") {
-            userPreferences[name] = [""];
-        }
+        // // PlaceHolder lists
+        // // for normal lists
+        // userPreferences[name] = ["Full-Time", "Part-Time", "Internship", "Temporary", "Contract"];
+
+        // // for lists if you want headers
+        // if (type == "searchListWithHeaders") {
+        //     userPreferences[name] = { "Days": ["Monday to Friday", "Weekends as needed", "Weekends Only", "No weekends", "Holidays"], "Shifts": ["After school", "4 hour shift", "8 hour shift", "10 hour shift", "12 hour shift", "Day shift", "Night shift", "Evening shift", "No nights", "Overnight shift"] };
+        // } else if (type == "inputBox") {
+        //     userPreferences[name] = [""];
+        // }
     }
     // creates list to store user selected data
     // gets data from user table
-    var nameChosen = name + "chosen";
+    var nameChosen = "perfered" + name ;
     if (userPreferences[nameChosen] == undefined) {
 
+        // I need this to query the Settings table with the collume nameChosen
+        // I need to set the information in the query create userPreferences[nameChosen] with the right info
 
-        if (type == "inputBox") {
-            userPreferences[nameChosen] = [""];
-        }
-        // need to be a query to get all user chosen options
-        // let xhr = new XMLHttpRequest();
-        // xhr.open("GET", "testDatabase.txt", true);
-        // xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === 4 && xhr.status === 200) {
-        //         userPreferences[name] = textXHR.responseText;
-        //     }
-        // };
-        // textXHR.send();
-        userPreferences[nameChosen] = [];
+        let getChosenOptions = new XMLHttpRequest();
+        getChosenOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
+        getChosenOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        getChosenOptions.onreadystatechange = function () {
+            userPreferences[nameChosen] = getChosenOptions.responseText;
+        };
+        getChosenOptions.send(`table=Settings&column=${nameChosen}`);
+
+
+        // // place holder lists
+        // if (type == "inputBox") {
+        //     userPreferences[nameChosen] = [""];
+        // }
+        
+        // userPreferences[nameChosen] = [];
     }
 
     // element that will store the data
@@ -307,7 +325,7 @@ function loadDataForEditUserButtons(allData, chosenData, name, container) {
     }
 
     if (chosenData != null) {
-        var nameChosen = name + "chosen";
+        var nameChosen = "perfered" + name ;
         userPreferences[nameChosen] = chosenData;
         userPreferences[nameChosen].forEach( option => updateChosenOptions(option, chosenData, true, container ));
     } else {
