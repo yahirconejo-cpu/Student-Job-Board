@@ -21,6 +21,7 @@ function closePopup(popupName) {
 
 // update user chosen preferences
 function updateChosenOptions(option, chosenList, isChecked,  definedOpenedUserButton = null, user) {
+
     // update list
     if (isChecked) {
         if (!chosenList.includes(option)) {
@@ -50,14 +51,17 @@ function updateChosenOptions(option, chosenList, isChecked,  definedOpenedUserBu
 
     let chosenListJson = JSON.stringify(chosenList);
 
-    let updateChosenOptions = new XMLHttpRequest();
-    updateChosenOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
-    updateChosenOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    updateChosenOptions.onreadystatechange = function () {
-        // console.log(updateChosenOptions.responseText);
+    let updateChosenOptionsXML = new XMLHttpRequest();
+    updateChosenOptionsXML.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
+    updateChosenOptionsXML.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    updateChosenOptionsXML.onreadystatechange = function () {
+        if (updateChosenOptionsXML.readyState === 4 && updateChosenOptionsXML.status === 200) {
+            console.log(updateChosenOptionsXML.responseText);
+        }
     };
     
-    updateChosenOptions.send(`edit=${encodeURIComponent(chosenListJson)}&column=${originalKey}`);
+    updateChosenOptionsXML.send(`edit=${encodeURIComponent(chosenListJson)}&column=${originalKey}`);
+
     
 
     if (typeof allList === "object" && !Array.isArray(allList)) {
@@ -269,7 +273,7 @@ function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, use
     
             getChosenOptions.onreadystatechange = function () {
                 if (getChosenOptions.readyState === 4 && getChosenOptions.status === 200) {
-                    userPreferences[nameChosen] = getChosenOptions.responseText;
+                    userPreferences[nameChosen] = JSON.parse(getChosenOptions.responseText);
                     resolve();  // Resolve the promise once the request completes
                 } else if (getChosenOptions.readyState === 4) {
                     reject();  // Reject if an error occurs
@@ -289,6 +293,7 @@ function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, use
 
     Promise.all([getPosOptionsPromise, getChosenOptionsPromise])
     .then(() => {
+
 
         // element that will store the data
         let optionsContainer = document.getElementById(popupName + "Container");

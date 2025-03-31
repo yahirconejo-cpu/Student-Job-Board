@@ -32,15 +32,22 @@
         } else if ($table == 'Settings') {
             // Query the Settings table based on the column name
             // need it to work with sessions eventally for user id ****************************************************************************************
-            $getUserSettings = $myPDO->prepare("SELECT $column FROM Settings WHERE column_name = :column AND userid = :currentUserId");
+            $getUserSettings = $myPDO->prepare("SELECT $column FROM Settings WHERE userid = :currentUserId");
             $getUserSettings->execute([
-                ":column" => $column,
-                ":currentUserId" => "1"
+                ":currentUserId" => 1
             ]);
             $settings = $getUserSettings->fetch(PDO::FETCH_ASSOC);
+
+            // $columnsQuery = $myPDO->query("PRAGMA table_info(Settings)");
+            // $columns = $columnsQuery->fetchAll(PDO::FETCH_COLUMN, 1);
+
+            // $getAllSettings = $myPDO->query("SELECT * FROM Settings"); 
+            // $settings = $getAllSettings->fetchAll(PDO::FETCH_ASSOC); 
+
+            // echo (json_encode($settings));
     
             // Return the setting value (this assumes only one result is expected)
-            echo $settings ? json_decode($settings[$column]) : [""];
+            echo $settings[$column] != null ? $settings[$column] : json_encode([]);
         } else {
             echo 'Invalid table specified';
         }
@@ -51,7 +58,7 @@
         $column = $_POST['column']; // Get the column name to update
 
         // Decode the JSON string into an array
-        $chosenList = json_decode($chosenListJson);
+        $chosenList = json_decode(urldecode($chosenListJson));
 
         if ($chosenList === null) {
             echo 'Invalid JSON data';
@@ -63,10 +70,18 @@
 
         $myPDO = connectedPDO();
 
-        // Prepare the SQL update statement
-        $stmt = $myPDO->prepare("UPDATE Settings SET $column = :chosenList WHERE column_name = :column");
-        $stmt->execute([':chosenList' => $chosenListJson, ':column' => $column]);
+        // $columnsQuery = $myPDO->query("PRAGMA table_info(Settings)");
+        // $columns = $columnsQuery->fetchAll(PDO::FETCH_COLUMN, 1);
 
-        echo 'Update successful';  // You can return any response here
+        // echo json_encode($columns);
+
+        
+        $stmt = $myPDO->prepare("UPDATE Settings SET $column = :chosenList WHERE userid = :currentUserId");
+        $stmt->execute([
+            ':chosenList' => $chosenListJson,
+            ':currentUserId' => 1
+        ]);
+
+        echo 'Update successful'; 
 
     }

@@ -174,7 +174,7 @@
             // parm 9 @ loadChosenData - array - if you want to load the data that the user has chosen before. null if you dont want to load the data.
             createPreferenceSelectElements("Add Job Titles", "jobTitles", "perferedjobtitles", "searchList", true ,"PreferencePopup", null);
             createPreferenceSelectElements("Add Job Types", "jobTypes", "perferedjobtypes", "checkbox", true ,"PreferencePopup");
-            //createPreferenceSelectElements("Add Job Days ", "jobDays", "perferedjobdays", "checkbox" , true ,"PreferencePopup");
+            createPreferenceSelectElements("Edit User Description ", "userDes", "userdescription", "inputBox" , false ,"PreferencePopup", "Input Description");
             //createPreferenceSelectElements("Input box", "inputJob", "rand", "inputBox", false ,"PreferencePopup", "Input Stuff",);
             // create popupElement
             // parm 1 @ elName - string - the id of the popup / name of the popup
