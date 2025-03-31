@@ -54,7 +54,7 @@ function updateChosenOptions(option, chosenList, isChecked,  definedOpenedUserBu
     updateChosenOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
     updateChosenOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     updateChosenOptions.onreadystatechange = function () {
-        console.log(updateChosenOptions.responseText);
+        // console.log(updateChosenOptions.responseText);
     };
     
     updateChosenOptions.send(`edit=${encodeURIComponent(chosenListJson)}&column=${originalKey}`);
@@ -214,27 +214,35 @@ function filterOptions(searchInput, container, chosenList, allList, chosenType) 
     }
 }
 
-function inputOptions(name, type, ifSearchBar, popupName, popupHeader, user) {
+function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, user) {
 
     // updates chosen type
     userChosenType = type;
 
-
+    var optionName = nameChosen.replace("perfered", "").trim();
     // stores all possible user data into userPreferences if not currently there
     // gets data from possible options table
-    if (userPreferences[name] == undefined) {
+    if (userPreferences[optionName] == undefined) {
         // I need this is querying the SettingsOptions table with the collume name and setting userPreferences[name] equle to the options set in it
         // In the database in the table I will formate the text to look like a list for dictionary so that it matches with the placeholder lists
         // name is just a varible that is a string
         // the php that it will access is called editUserButtons.php
 
-        let getPosOptions = new XMLHttpRequest();
-        getPosOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
-        getPosOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        getPosOptions.onreadystatechange = function () {
-            userPreferences[name] = getPosOptions.responseText;
-        };
-        getPosOptions.send(`table=SettingsOptions&column=${name}`);
+        var getPosOptionsPromise = new Promise((resolve, reject) => {
+            let getPosOptions = new XMLHttpRequest();
+            getPosOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
+            getPosOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+            getPosOptions.onreadystatechange = function () {
+                if (getPosOptions.readyState === 4 && getPosOptions.status === 200) {
+                    userPreferences[optionName] = JSON.parse(getPosOptions.responseText);
+                    resolve();  // Resolve the promise once the request completes
+                } else if (getPosOptions.readyState === 4) {
+                    reject();  // Reject if an error occurs
+                }
+            };
+            getPosOptions.send(`table=SettingsOptions&column=${optionName}`);
+        });
 
         // // PlaceHolder lists
         // // for normal lists
@@ -249,19 +257,26 @@ function inputOptions(name, type, ifSearchBar, popupName, popupHeader, user) {
     }
     // creates list to store user selected data
     // gets data from user table
-    var nameChosen = "perfered" + name ;
     if (userPreferences[nameChosen] == undefined) {
 
         // I need this to query the Settings table with the collume nameChosen
         // I need to set the information in the query create userPreferences[nameChosen] with the right info
 
-        let getChosenOptions = new XMLHttpRequest();
-        getChosenOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
-        getChosenOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        getChosenOptions.onreadystatechange = function () {
-            userPreferences[nameChosen] = getChosenOptions.responseText;
-        };
-        getChosenOptions.send(`table=Settings&column=${nameChosen}`);
+        var getChosenOptionsPromise = new Promise((resolve, reject) => {
+            let getChosenOptions = new XMLHttpRequest();
+            getChosenOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
+            getChosenOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+            getChosenOptions.onreadystatechange = function () {
+                if (getChosenOptions.readyState === 4 && getChosenOptions.status === 200) {
+                    userPreferences[nameChosen] = getChosenOptions.responseText;
+                    resolve();  // Resolve the promise once the request completes
+                } else if (getChosenOptions.readyState === 4) {
+                    reject();  // Reject if an error occurs
+                }
+            };
+            getChosenOptions.send(`table=Settings&column=${nameChosen}`);
+        });
 
 
         // // place holder lists
@@ -272,52 +287,60 @@ function inputOptions(name, type, ifSearchBar, popupName, popupHeader, user) {
         // userPreferences[nameChosen] = [];
     }
 
-    // element that will store the data
-    let optionsContainer = document.getElementById(popupName + "Container");
-    optionsContainer.innerHTML = "";
+    Promise.all([getPosOptionsPromise, getChosenOptionsPromise])
+    .then(() => {
 
-    // element that will be used as a search bar
-    let optionSearchInput = document.getElementById(popupName + "SearchBar");
-    optionSearchInput.oninput = function() {
-        filterOptions(this.value, optionsContainer, userPreferences[nameChosen], userPreferences[name], type);
-    };
+        // element that will store the data
+        let optionsContainer = document.getElementById(popupName + "Container");
+        optionsContainer.innerHTML = "";
 
-    // element that will be the popup header
-    let optionPopupHeader = document.getElementById(popupName + "PopupHeader");
-    optionPopupHeader.innerHTML = "";
+        // element that will be used as a search bar
+        let optionSearchInput = document.getElementById(popupName + "SearchBar");
+        optionSearchInput.oninput = function() {
+            filterOptions(this.value, optionsContainer, userPreferences[nameChosen], userPreferences[optionName], type);
+        };
 
-    // if element will have a search bar
-    if (ifSearchBar) {
-        optionSearchInput.style.display = "";
-    } else {
-        optionSearchInput.style.display = "none";
-    }
+        // element that will be the popup header
+        let optionPopupHeader = document.getElementById(popupName + "PopupHeader");
+        optionPopupHeader.innerHTML = "";
 
-    // if element will have a title
+        // if element will have a search bar
+        if (ifSearchBar) {
+            optionSearchInput.style.display = "";
+        } else {
+            optionSearchInput.style.display = "none";
+        }
 
-    if (popupHeader != null) {
-        optionPopupHeader.style.display = "";
-        optionPopupHeader.innerHTML = popupHeader;
-    } else {
-        optionPopupHeader.style.display = "none";
-    }
+        // if element will have a title
 
-    // addes data into element
-    if (type == "checkbox") {
-        userPreferences[name].forEach(option => createCheckbox(option, optionsContainer, userPreferences[nameChosen], user));
-    } else if (type == "searchList") {
-        userPreferences[name].forEach(option => createSearchList(option, optionsContainer, userPreferences[nameChosen], user));
-    } else if (type == "searchListWithHeaders") {
-        createSearchListWithHeaders(userPreferences[name], optionsContainer, userPreferences[nameChosen], user);
-    } else if (type == "inputBox") {
-        userPreferences[name].forEach(option => createInputBox(option, optionsContainer, userPreferences[nameChosen], user));
-    }
+        if (popupHeader != null) {
+            optionPopupHeader.style.display = "";
+            optionPopupHeader.innerHTML = popupHeader;
+        } else {
+            optionPopupHeader.style.display = "none";
+        }
+
+        // addes data into element
+        if (type == "checkbox") {
+            userPreferences[optionName].forEach(option => createCheckbox(option, optionsContainer, userPreferences[nameChosen], user));
+        } else if (type == "searchList") {
+            userPreferences[optionName].forEach(option => createSearchList(option, optionsContainer, userPreferences[nameChosen], user));
+        } else if (type == "searchListWithHeaders") {
+            createSearchListWithHeaders(userPreferences[optionName], optionsContainer, userPreferences[nameChosen], user);
+        } else if (type == "inputBox") {
+            userPreferences[optionName].forEach(option => createInputBox(option, optionsContainer, userPreferences[nameChosen], user));
+        }
+
+    })
+    .catch((error) => {
+        console.error("An error occurred: ", error);
+    });
 
 }
 
-function loadDataForEditUserButtons(allData, chosenData, name, container) {
+function loadDataForEditUserButtons(allData, chosenData, optionName, container) {
     if (allData != null) {
-        userPreferences[name] = allData;
+        userPreferences[optionName] = allData;
         // updateChosenOptions(option, chosenList, isChecked);
         // userPreferences[name].forEach( option => updateChosenOptions(option, chosenData, true));
     } else {
@@ -325,7 +348,7 @@ function loadDataForEditUserButtons(allData, chosenData, name, container) {
     }
 
     if (chosenData != null) {
-        var nameChosen = "perfered" + name ;
+        var nameChosen = "perfered" + optionName ;
         userPreferences[nameChosen] = chosenData;
         userPreferences[nameChosen].forEach( option => updateChosenOptions(option, chosenData, true, container ));
     } else {

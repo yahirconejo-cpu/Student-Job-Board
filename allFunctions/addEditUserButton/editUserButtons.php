@@ -9,20 +9,32 @@
         $myPDO = connectedPDO();
 
         if ($table == 'SettingsOptions') {
+
+            $columnsQuery = $myPDO->query("PRAGMA table_info(SettingsOptions)");
+            $columns = $columnsQuery->fetchAll(PDO::FETCH_COLUMN, 1); 
+
+            if (!in_array($column, $columns)) {
+                echo json_encode(["Invalid column"]);
+                exit;
+            }
             
-            $getOptions = $myPDO->prepare("SELECT :column FROM SettingsOptions WHERE column_name = :column");
-            $getOptions->execute([':column' => $column]);
-            $options = $getOptions->fetch(PDO::FETCH_ASSOC);
-    
+            $getOptions = $myPDO->query("SELECT $column FROM SettingsOptions");
+            $options = $getOptions->fetchAll(PDO::FETCH_COLUMN); 
+
+            $options = array_filter($options, function($value) {
+                return $value !== null;
+            });
             
-            echo $options ? json_decode($options[$column]) : [""];
+            $options = array_values($options);
+
+            echo json_encode(!empty($options) ? $options : []);
 
         } else if ($table == 'Settings') {
             // Query the Settings table based on the column name
             // need it to work with sessions eventally for user id ****************************************************************************************
-            $getUserSettings = $myPDO->prepare("SELECT :column FROM Settings WHERE column_name = :column AND userid = :currentUserId");
+            $getUserSettings = $myPDO->prepare("SELECT $column FROM Settings WHERE column_name = :column AND userid = :currentUserId");
             $getUserSettings->execute([
-                ':column' => $column,
+                ":column" => $column,
                 ":currentUserId" => "1"
             ]);
             $settings = $getUserSettings->fetch(PDO::FETCH_ASSOC);
