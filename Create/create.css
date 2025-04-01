@@ -1,0 +1,121 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+  }
+  
+
+#jobFormSection{
+    position: relative;
+    border-top: 2px solid black;
+    width: 100vw;
+    height: fit-content;
+    padding: 50px 0px 20px;
+}
+
+#jobForm {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    background-color: #dfdfdf;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+#jobForm h2 {
+    text-align: center;
+}
+
+
+#jobForm label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#jobForm input, select, textarea {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+#jobForm textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+#jobForm button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#jobForm button:hover {
+    background-color: #0056b3;
+}
+
+
+#allShifts{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #ccc;
+    border-radius: 5px;
+    margin-top: 6px;
+}
+
+.addedShift{
+    position: relative;
+    display: flex;
+    margin: 5px 10px 8px 15px;
+}
+
+.addedShift input:first-of-type{
+    margin-right: 6px;
+}
+
+.removeAddedShift{
+    position: relative;
+    
+}
+
+#addAnotherShiftJobPost{
+    position: relative;
+    background-color: #67eb7d;
+    width: fit-content;
+    border-radius: 5px;
+    padding: 8px 8px;
+    margin: 10px 0px 10px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#addAnotherShiftJobPost span{
+    position: relative;
+    margin-left: 10px;
+    height: fit-content;
+    font-weight: bold;
+}
+
+#addAnotherShiftJobPost:hover{
+    background-color: #35bb35;
+}
+
+#responseMessage {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
