@@ -33,8 +33,8 @@
             <textarea id="description" name="description" required></textarea>
 
             <label for="jobTitle">Job Titles:</label>
-            <input list="jobTitle" name="jobTitle">
-            <datalist id="jobTitle" required>
+            <input list="jobTitleData" name="jobTitle" >
+            <datalist id="jobTitleData" required>
                 <?php
                     $jobTitlesQuery = $indexPDO->query("SELECT DISTINCT jobtitles FROM SettingsOptions WHERE jobtitles IS NOT NULL");
                     while ($jobTitle = $jobTitlesQuery->fetch(PDO::FETCH_ASSOC)) {
@@ -42,6 +42,7 @@
                     }
                 ?>
             </datalist>
+            <div id="jobTitleErrorText"></div>
 
             <label for="jobType">Job Type:</label>
             <select id="jobType" name="jobType" required>
@@ -68,10 +69,9 @@
                 <div class="addedShift">
                     <input type="time"  name="startShifts" required>
                     <input type="time"  name="endShifts" required>
-                    <div class="removeAddedShift">&#8212;</div>
                 </div>
             </div>
-            <div id="addAnotherShiftJobPost"> Add Another Shift <span>+</span></div>
+            <div id="addAnotherShiftJobPost" onclick="createAnotherShift();" > Add Another Shift <span>+</span></div>
 
             <label for="pay">Pay ($/hour):</label>
             <input type="number" id="pay" name="pay" min="0" required>
@@ -79,7 +79,7 @@
             <label for="address">Job Location:</label>
             <input type="text" id="address" name="address" required>
 
-            <button type="submit">Post Job</button>
+            <button type="submit" onclick="createJobPost()">Post Job</button>
 
             <div id="responseMessage"></div>
         </div>

@@ -66,6 +66,18 @@ body::-webkit-scrollbar {
     background-color: #0056b3;
 }
 
+#jobTitleErrorText{
+    position: relative;
+    height: fit-content;
+    background-color: white;
+    border: 1px solid rgb(179, 179, 179);
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 15px;
+    color: red;
+    padding: 8px 8px;
+}
+
 
 #allShifts{
     position: relative;
@@ -79,6 +91,7 @@ body::-webkit-scrollbar {
 .addedShift{
     position: relative;
     display: flex;
+    align-items: center;
     margin: 5px 10px 8px 15px;
 }
 
@@ -88,8 +101,28 @@ body::-webkit-scrollbar {
 
 .removeAddedShift{
     position: relative;
-    
+    /* background-color: red; */
+    background-color: #f0f0f0;
+    height: 20px;
+    width: 25px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    transition: background 0.2s linear, color 0.2s linear;
 }
+
+.removeAddedShift:hover{
+    background-color: #ffffff;
+    color: red;
+}
+
 
 #addAnotherShiftJobPost{
     position: relative;
@@ -101,6 +134,7 @@ body::-webkit-scrollbar {
     cursor: pointer;
     display: flex;
     align-items: center;
+    transition: background 0.2s linear;
 }
 
 #addAnotherShiftJobPost span{
