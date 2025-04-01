@@ -81,7 +81,21 @@
 
             <button type="submit" onclick="createJobPost()">Post Job</button>
 
-            <div id="responseMessage"></div>
+            <div id="responseMessage">
+                <?php
+                     $indexPDO = connectedPDO();
+
+                     $query = "SELECT * FROM JobPosts"; // Select everything from JobPosts table
+                     $stmt = $indexPDO->query($query); // Execute the query
+                     
+                     // Fetch all rows from the query result
+                     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                     
+                     // Output the rows as JSON
+                     echo json_encode($rows);
+                   
+                ?>
+            </div>
         </div>
     </div>
 
