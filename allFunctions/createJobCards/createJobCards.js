@@ -132,25 +132,39 @@ function createJobCardAddMoreCard(container){
 }
 
 // parm 1 @ container - string - the id of the container that will hold the job cards
-// parm 2 @ quryCondition - object - uses key to check if value is equle to it {"owner": "bob", "status": "accepted", "jobTitle": "Computer Science"}
-function createJobCardInitialize(container, quryCondition){
-
+// parm 2 @ quryCondition - object - uses key to check if value is equle to it {"owner": "bob", "status": "accepted", "jobTitle": "Computer Science"} should also be a { "owner" : null} option which will just pull the current user through session
+function createJobCardInitialize(container, quryCondition) {
   let params = new URLSearchParams(quryCondition).toString();
   
   let xhr = new XMLHttpRequest();
-  xhr.open("GET", "", true);
+  xhr.open("POST", "../allFunctions/createJobCards/createJobCards.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
   xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        let response = JSON.parse(xhr.responseText);
+      if (xhr.readyState === 4 && xhr.status === 200) {
+          let response = JSON.parse(xhr.responseText);
 
-        let containerElement = document.getElementById(container);
-        containerElement.innerHTML = "";
+          let containerElement = document.getElementById(container);
+          containerElement.innerHTML = ""; // Clear existing job cards
 
-        response.forEach(job => {
-            
-        });
-    }
+          response.forEach(job => {
+              // Destructure job properties
+              let { type, status, jobTitle, jobDescription, applicantsCount, companyName } = job;
+
+              // Determine which job card function to call
+              if (type === "applicant") {
+                  createJobCardApplicant(status, jobTitle, jobDescription, containerElement);
+              } else if (type === "employer") {
+                  createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription, containerElement);
+              } else if (type === "generic") {
+                  createJobCardGenericCard(jobTitle, companyName, jobDescription, containerElement);
+              }
+          });
+
+          // Add "Add More" button if applicable
+          createJobCardAddMoreCard(containerElement);
+      }
   };
-  xhr.send();
-  
+
+  xhr.send("cardQuery=" + encodeURIComponent(params));
 }
