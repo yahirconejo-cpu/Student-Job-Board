@@ -23,70 +23,37 @@
 
   <link rel="stylesheet" href="../allFunctions/addEditUserButton/editUserButtons.css">
   <script src="../allFunctions/addEditUserButton/editUserButtons.js"></script>
+  <script src="../allFunctions/Sanitization/checkValidInputs.js"></script>
 </head>
-<body>
+<>
   
   <?php
     createNavBar("home");
-  ?>
-
-  <?php
-    $leftSideBarItems = '
-      <div id="sideBarLeft">
-        <div id="sideBarLeftBackground"></div>
-        <button name="applications" type="button" class="leftSideBarItems selected">Applications</button>
-        <button name="preferences" type="button" class="leftSideBarItems">Settings</button>
-        <button name="contact" type="button" class="leftSideBarItems">Contacts</button>
-        <button name="tutorials" type="button" class="leftSideBarItems">Tutorials</button>
-      </div>
-    ';
-
-    $rightSideBar = '
-      <div id="sideBarRightHeaderHolder">
-        <div id="rightSideHeader" class="rightSideBarHeader">
-          <h2>Applications</h2>
-        </div>
-      </div>
-    ';
-
   ?>
   
   <!-- section ------------------------------------------- -->
   <?php
     $userType = "employer";
-
-    if ($userType = "employer") {
-      echo '
-        <div id="studentOverview">
-          '.$leftSideBarItems.$rightSideBar.'
-          <div id="applicationsContainer">
-            <script>
-
-            </script>
-          </div>
-          <div id="preferencesContainer">
-            <script>
-              createPreferenceSelectElements("Add Job Titles", "jobTitles", "perferedjobtitles", "searchList", true ,"PreferencePopup", null);
-              createPreferenceSelectElements("Add Job Types", "jobTypes", "perferedjobtypes", "checkbox", true ,"PreferencePopup");
-              createPreferenceSelectElements("Edit User Description ", "userDes", "userdescription", "inputBox" , false ,"PreferencePopup", "Input Description");
-            </script>
-          </div>
-        </div>
-      ';
-    } elseif($userType = "student") {
-      echo '
-
-      ';
-    }
   ?>
   
   <div id="studentOverview">
-
+    <div id="sideBarLeft">
+      <div id="sideBarLeftBackground"></div>
+      <button name="applications" type="button" class="leftSideBarItems selected">Applications</button>
+      <button name="settings" type="button" class="leftSideBarItems">Settings</button>
+      <button name="contact" type="button" class="leftSideBarItems">Contacts</button>
+      <button name="tutorials" type="button" class="leftSideBarItems">Tutorials</button>
+    </div>
+    
     <div id="sideBarRight">
 
       <!-- Header for the right bar  -->
       
-
+      <div id="sideBarRightHeaderHolder">
+        <div id="rightSideHeader" class="rightSideBarHeader">
+          <h2>Applications</h2>
+        </div>
+      </div>
 
       <!-- Info for right side bar  -->
       <div id="rightSideBarMain">
@@ -155,55 +122,34 @@
           </div>
         </div>
 
-        <!-- preferences container -->
-        <div id="preferencesContainer" class="rightSideBarSections">
-
-          <!-- 
-          <div id="jobTitles" name="selectedJobTitles" class="preferencesItems" onclick="openPopup('title','searchList',this)">
-            <h4>Add Job Titles <span class="plusSigns">+</span></h4>
-          </div>
-          
-          <div id="selectedJobTitles" class="selectedPreferencesItems"></div>
-          -->
-          
-          <!-- <div id="jobTypes" name="selectedJobTypes" class="preferencesItems" onclick="openPopup('types','checkbox',this)">
-            <h4>Add Job Types <span class="plusSigns">+</span></h4>
-          </div>
-          
-          <div id="selectedJobTypes" class="selectedPreferencesItems"></div> -->
-          
-          <!-- <div id="jobSchedules" name="selectedJobSchedules" class="preferencesItems" onclick="openPopup('schedule','searchListWithHeaders',this)">
-            <h4>Add Job Schedules <span class="plusSigns">+</span></h4>
-          </div>
-
-          <div id="selectedJobSchedules" class="selectedPreferencesItems"></div>
-          
-          <div id="overlay" onclick="closePopup()"></div>
-          <div id="popup">
-            <input type="text" id="searchBar" placeholder="Search Job Titles">
-            <div id="optionsContainer"></div>
-            <button id="closePopupBtn" onclick="closePopup()">Save</button>
-          </div> -->
-
+        <!-- Settings container -->
+        <div id="settingsContainer" class="rightSideBarSections">
           <script>
-            
+            createSettingSelectElements("Add Email", "email", "email", "inputBox" , false ,"PreferencePopup", "Set your email!", ["Email..."]);
+            <?php
+              if ($userType == "student") {
+                echo '
+                  createSettingSelectElements("Add Job Titles", "jobTitles", "preferedjobtitles", "searchList", true ,"PreferencePopup", null);
+                  createSettingSelectElements("Add Job Types", "jobTypes", "preferedjobtypes", "checkbox", false ,"PreferencePopup", "Pick Prefered Job Types");
+                  createSettingSelectElements("Add Prefered Days", "jobDays", "preferedjobdays", "checkbox" , false ,"PreferencePopup", "Pick Prefered Days");
+                ';
+              }
+            ?>
             // creates a button that will let the user to edit any user table collume
             // parm 1 @ header - string - set the header of the button. aka the name that will show up for the button
             // parm 2 @ elName - string - set the id of the button
             // parm 3 @ colName - string - the name of the collume that will be edited
             // parm 4 @ type - string - the type of button that will be created: checkbox, searchList, searchListWithHeaders, inputBox.
             // parm 5 @ ifSearchBar - boolean - if the popup will have a search bar
-            // parm 6 @ popupName - string - the name of the popup that will be created. This has to be the same name as you give to createPreferenceSelectPopups() function
+            // parm 6 @ popupName - string - the name of the popup that will be created. This has to be the same name as you give to createSettingselectPopups() function
             // parm 7 @ popupHeader - string - the header of the popup that will be created. place null if you dont want a header.
             // parm 8 @ loadAllData - array / object - if you want to load possible options that the user can choose from. null if you dont want to load possible options.
             // parm 9 @ loadChosenData - array - if you want to load the data that the user has chosen before. null if you dont want to load the data.
-            createPreferenceSelectElements("Add Job Titles", "jobTitles", "perferedjobtitles", "searchList", true ,"PreferencePopup", null);
-            createPreferenceSelectElements("Add Job Types", "jobTypes", "perferedjobtypes", "checkbox", true ,"PreferencePopup");
-            createPreferenceSelectElements("Edit User Description ", "userDes", "userdescription", "inputBox" , false ,"PreferencePopup", "Input Description");
-            //createPreferenceSelectElements("Input box", "inputJob", "rand", "inputBox", false ,"PreferencePopup", "Input Stuff",);
+           
+            //createSettingselectElements("Input box", "inputJob", "rand", "inputBox", false ,"PreferencePopup", "Input Stuff",);
             // create popupElement
             // parm 1 @ elName - string - the id of the popup / name of the popup
-            createPreferenceSelectPopups("PreferencePopup");
+            createSettingSelectPopups("PreferencePopup");
           
           </script>
           

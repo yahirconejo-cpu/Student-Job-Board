@@ -46,7 +46,7 @@ function updateChosenOptions(option, chosenList, isChecked,  definedOpenedUserBu
 
     // Find list of all pos choces
     let originalKey = Object.keys(userPreferences).find(key => userPreferences[key] === chosenList);
-    let allListKey = originalKey.replace("perfered", ""); // Remove "perfered" from key name
+    let allListKey = originalKey.replace("prefered", ""); // Remove "prefered" from key name
     var allList = userPreferences[allListKey];
 
     let chosenListJson = JSON.stringify(chosenList);
@@ -223,7 +223,7 @@ function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, use
     // updates chosen type
     userChosenType = type;
 
-    var optionName = nameChosen.replace("perfered", "").trim();
+    var optionName = nameChosen.replace("prefered", "").trim();
     // stores all possible user data into userPreferences if not currently there
     // gets data from possible options table
     if (userPreferences[optionName] == undefined) {
@@ -353,7 +353,7 @@ function loadDataForEditUserButtons(allData, chosenData, optionName, container) 
     }
 
     if (chosenData != null) {
-        var nameChosen = "perfered" + optionName ;
+        var nameChosen = "prefered" + optionName ;
         userPreferences[nameChosen] = chosenData;
         userPreferences[nameChosen].forEach( option => updateChosenOptions(option, chosenData, true, container ));
     } else {
@@ -377,7 +377,7 @@ function loadDataForEditUserButtons(allData, chosenData, optionName, container) 
 // parm 8 @ loadAllData - array / object - if you want to load possible options that the user can choose from. null if you dont want to load possible options.
 // parm 9 @ loadChosenData - array - if you want to load the data that the user has chosen before. null if you dont want to load the data.
 // param 10 @ user - string - username of user to edit ie: checks access level (admin only)
-function createPreferenceSelectElements(header, elName, colName, type, ifSearchBar = true, popupName, popupHeader = null, loadAllData = null, loadChosenData = null, user = null) {
+function createSettingSelectElements(header, elName, colName, type, ifSearchBar = true, popupName, popupHeader = null, loadAllData = null, loadChosenData = null, user = null) {
     let PreferenceSelectElementsBtn = document.createElement("div");
     PreferenceSelectElementsBtn.setAttribute("name", "selected" + elName);
     PreferenceSelectElementsBtn.classList.add("userEditButtons");
@@ -411,7 +411,7 @@ function createPreferenceSelectElements(header, elName, colName, type, ifSearchB
 
 // create popupElement
 // parm 1 @ elName - string - the id of the popup / name of the popup
-function createPreferenceSelectPopups(elName) {
+function createSettingSelectPopups(elName) {
     let popupElementOverlay = document.createElement("div");
     popupElementOverlay.setAttribute("id", elName + "popUpOverlay");
     popupElementOverlay.classList.add("editUserButtonsPopupOverlay");
