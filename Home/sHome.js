@@ -193,12 +193,11 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener("click", function() {
             document.querySelectorAll(".leftSideBarItems").forEach(btn => {
                 btn.classList.remove("selected");
-                document.getElementById(btn.name + "Header").style.display = "none";
                 document.getElementById(btn.name + "Container").style.display = "none";
             });
 
             this.classList.add("selected");
-            document.getElementById(this.name + "Header").style.display = "flex";
+            document.getElementById("rightSideHeader").innerHTML = '<h2>' + this.name.charAt(0).toUpperCase() + this.name.slice(1); + '</h2>';
             document.getElementById(this.name + "Container").style.display = "flex";
         });
     });

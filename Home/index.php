@@ -29,38 +29,63 @@
   <?php
     createNavBar("home");
   ?>
+
+  <?php
+    $leftSideBarItems = '
+      <div id="sideBarLeft">
+        <div id="sideBarLeftBackground"></div>
+        <button name="applications" type="button" class="leftSideBarItems selected">Applications</button>
+        <button name="preferences" type="button" class="leftSideBarItems">Settings</button>
+        <button name="contact" type="button" class="leftSideBarItems">Contacts</button>
+        <button name="tutorials" type="button" class="leftSideBarItems">Tutorials</button>
+      </div>
+    ';
+
+    $rightSideBar = '
+      <div id="sideBarRightHeaderHolder">
+        <div id="rightSideHeader" class="rightSideBarHeader">
+          <h2>Applications</h2>
+        </div>
+      </div>
+    ';
+
+  ?>
   
   <!-- section ------------------------------------------- -->
+  <?php
+    $userType = "employer";
 
+    if ($userType = "employer") {
+      echo '
+        <div id="studentOverview">
+          '.$leftSideBarItems.$rightSideBar.'
+          <div id="applicationsContainer">
+            <script>
+
+            </script>
+          </div>
+          <div id="preferencesContainer">
+            <script>
+              createPreferenceSelectElements("Add Job Titles", "jobTitles", "perferedjobtitles", "searchList", true ,"PreferencePopup", null);
+              createPreferenceSelectElements("Add Job Types", "jobTypes", "perferedjobtypes", "checkbox", true ,"PreferencePopup");
+              createPreferenceSelectElements("Edit User Description ", "userDes", "userdescription", "inputBox" , false ,"PreferencePopup", "Input Description");
+            </script>
+          </div>
+        </div>
+      ';
+    } elseif($userType = "student") {
+      echo '
+
+      ';
+    }
+  ?>
+  
   <div id="studentOverview">
-    <!-- left side of the student OverView -->
-    <div id="sideBarLeft">
-      <!-- sideBarLeftBackground -->
-      <div id="sideBarLeftBackground"></div>
-      <!-- click buttons -->
-      <button name="applications" type="button" class="leftSideBarItems selected">Applications</button>
-      <button name="preferences" type="button" class="leftSideBarItems">Preferences!</button>
-      <button name="contact" type="button" class="leftSideBarItems">Contacts</button>
-      <button name="tutorials" type="button" class="leftSideBarItems">Tutorials</button>
-    </div>
 
     <div id="sideBarRight">
 
       <!-- Header for the right bar  -->
-      <div id="sideBarRightHeaderHolder">
-        <div id="applicationsHeader" class="rightSideBarHeader">
-          <h2>Applications</h2>
-        </div>
-        <div id="preferencesHeader" class="rightSideBarHeader hide">
-          <h2>Preferences</h2>
-        </div>
-        <div id="contactHeader" class="rightSideBarHeader hide">
-          <h2>Your Contacts</h2>
-        </div>
-        <div id="tutorialsHeader" class="rightSideBarHeader hide">
-          <h2>Tutorials</h2>
-        </div>
-      </div>
+      
 
 
       <!-- Info for right side bar  -->
