@@ -25,7 +25,6 @@
   <script src="../allFunctions/addEditUserButton/editUserButtons.js"></script>
   <script src="../allFunctions/Sanitization/checkValidInputs.js"></script>
 </head>
-<>
   
   <?php
     createNavBar("home");
