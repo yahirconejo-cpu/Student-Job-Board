@@ -348,22 +348,53 @@ function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, use
 
 function loadDataForEditUserButtons(allData, chosenData, optionName, container, type) {
     if (allData != null) {
+
         let optionAll = optionName.replace('prefered', '');
         if(optionAll == optionAll){
             optionAll = optionAll + "Store";
         }
-        userPreferences[optionAll] = allData;
-        // updateChosenOptions(option, chosenList, isChecked);
-        // userPreferences[name].forEach( option => updateChosenOptions(option, chosenData, true));
+
+        if(allData == "auto"){
+           
+            let getPosOptions = new XMLHttpRequest();
+            getPosOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
+            getPosOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+            getPosOptions.onreadystatechange = function () {
+                if (getPosOptions.readyState === 4 && getPosOptions.status === 200) {
+                    userPreferences[optionAll] = JSON.parse(getPosOptions.responseText);
+                  
+                }
+            };
+            getPosOptions.send(`table=SettingsOptions&column=${optionAll}`);
+        }else{
+            userPreferences[optionAll] = allData;
+        }
+       
     } else {
         allData = [];
     }//
 
     if (chosenData != null) {
         var nameChosen = optionName ;
-        userPreferences[nameChosen] = chosenData;
-        //userPreferences[nameChosen].forEach( option => updateChosenOptions(option, chosenData, true, container ));
-       console.log(optionName);
+        if(chosenData == "auto"){
+
+            let getPosOptions = new XMLHttpRequest();
+            getPosOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
+            getPosOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+            getPosOptions.onreadystatechange = function () {
+                if (getPosOptions.readyState === 4 && getPosOptions.status === 200) {
+                    console.log(getPosOptions.responseText);
+                    userPreferences[nameChosen] = JSON.parse(getPosOptions.responseText);
+                }
+            };
+            getPosOptions.send(`table=SettingsOptions&column=${nameChosen}`);
+
+        }else{
+            userPreferences[nameChosen] = chosenData;
+            userPreferences[nameChosen].forEach( option => updateChosenOptions(option, chosenData, true, container ));
+        }
     } else {
         chosenData = [];
     }

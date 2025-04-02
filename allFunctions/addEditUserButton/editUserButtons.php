@@ -14,7 +14,8 @@
             $columns = $columnsQuery->fetchAll(PDO::FETCH_COLUMN, 1); 
 
             if (!in_array($column, $columns)) {
-                echo [''];
+                echo json_encode(['']);
+                exit;
             }
             
             $getOptions = $myPDO->query("SELECT $column FROM SettingsOptions");
@@ -44,9 +45,9 @@
             // $settings = $getAllSettings->fetchAll(PDO::FETCH_ASSOC); 
 
             // echo (json_encode($settings));
-    
+
             // Return the setting value (this assumes only one result is expected)
-            echo $settings[$column] != null ? $settings[$column] : json_encode([]);
+            //echo $settings[$column] != null ? $settings[$column] : json_encode([]);
         } else {
             echo 'Invalid table specified';
         }
@@ -67,8 +68,6 @@
         // Convert the array back to a JSON string for storage
         $chosenListJson = json_encode($chosenList);
         
-        echo($chosenListJson);
-
         $myPDO = connectedPDO();
 
         // $columnsQuery = $myPDO->query("PRAGMA table_info(Settings)");
@@ -95,7 +94,7 @@
 
         // echo json_encode($columns);
 
-        $getAllSettings = $myPDO->query("SELECT * FROM Users"); 
+        $getAllSettings = $myPDO->query("SELECT * FROM Settings"); 
         $settings = $getAllSettings->fetchAll(PDO::FETCH_ASSOC); 
 
         echo (json_encode($settings));
