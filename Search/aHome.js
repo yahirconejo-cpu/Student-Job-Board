@@ -1,2 +1,2 @@
 
-createJobCardInitialize("searchSectionResultsContainer", { "owner" : null});
+createJobCardInitialize("searchSectionResultsContainer");

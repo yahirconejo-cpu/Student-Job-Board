@@ -18,9 +18,8 @@
     //     exit;
     // }
 
-    $queryConditions =  json_decode($_POST['cardQuery']);
+    $queryConditions =  json_decode($_POST['cardQuery'], true);
     
-    echo($queryConditions->owner);
 
     $query = [];
 
@@ -31,12 +30,11 @@
     $conditions = [];
     $params = [];
     
+    //  && $queryConditions->owner == ""
 
     // only run if the user put owner = null 
-    if (isset($queryConditions->owner) && $queryConditions->owner === null) {
+    if (array_key_exists( "owner", $queryConditions) && empty($queryConditions->owner)) {
         // Handle the case when 'owner' exists and is null
-        
-       
         $currentUserId = 2;
         $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
         $userTypeQuery->execute([
@@ -44,6 +42,7 @@
         ]);
         $userType = $userTypeQuery->fetchColumn();
         $params[] = $currentUserId;
+
 
 
     }
@@ -98,7 +97,7 @@
             $sql .= " AND " . implode(" AND ", $conditions);
         }
 
-        $params[] = $currentUserId;
+        //$params[] = $currentUserId;
 
         $stmt = $myPDO->prepare($sql);
         $stmt->execute($params);
@@ -107,10 +106,10 @@
         
         if(count($jobs) > 0){
             foreach ($jobs as &$job) {
-                $job['type'] = "applicant";
+                $job['type'] = "employer";
             }
         }else{
-            $job['type'] = "applicant";
+            $job['type'] = "employer";
         }
     } elseif($userType === "admin"){
 
@@ -159,4 +158,4 @@
     }
 
     // Return the fetched jobs as JSON
-    //echo json_encode($jobs);
+   echo json_encode($jobs) == "[]"? json_encode((object) array("type" => $userType)) : json_encode($jobs) ;
