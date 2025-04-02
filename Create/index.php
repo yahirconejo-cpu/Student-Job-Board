@@ -54,15 +54,7 @@
                 ?>
             </select>
 
-            <!-- <label for="days">Work Days:</label>
-            <select id="days" name="days" multiple required>
-                <?php
-                    // $workDaysQuery = $indexPDO->query("SELECT DISTINCT jobdays FROM SettingsOptions WHERE jobdays IS NOT NULL");
-                    // while ($workDay = $workDaysQuery->fetch(PDO::FETCH_ASSOC)) {
-                    //     echo "<option value=\"{$workDay['jobdays']}\">{$workDay['jobdays']}</option>";
-                    // }
-                ?>
-            </select> -->
+
             <label for="days">Work Days:</label>
             <div id="days">
                 <?php

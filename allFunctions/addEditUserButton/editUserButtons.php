@@ -32,9 +32,9 @@
         } else if ($table == 'Settings') {
             // Query the Settings table based on the column name
             // need it to work with sessions eventally for user id ****************************************************************************************
-            $getUserSettings = $myPDO->prepare("SELECT $column FROM Settings WHERE userid = :currentUserId");
+            $getUserSettings = $myPDO->prepare("SELECT $column FROM Settings WHERE userid = ?");
             $getUserSettings->execute([
-                ":currentUserId" => 1
+                 1
             ]);
             $settings = $getUserSettings->fetch(PDO::FETCH_ASSOC);
 
@@ -47,7 +47,7 @@
             // echo (json_encode($settings));
 
             // Return the setting value (this assumes only one result is expected)
-            //echo $settings[$column] != null ? $settings[$column] : json_encode([]);
+            echo $settings[$column] != null ? $settings[$column] : json_encode([]);
         } else {
             echo 'Invalid table specified';
         }

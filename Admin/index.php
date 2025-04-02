@@ -7,7 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin</title>
   <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="../allFunctions/createJobCards/createJobCards.css">
+
   <script src="../allFunctions/Sanitization/checkValidInputs.js"></script>
+
+  <script src="../allFunctions/createJobCards/createJobCards.js"></script>
 </head>
 <body>
   <!-- section ------------------------------------------- -->

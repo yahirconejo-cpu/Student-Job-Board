@@ -18,7 +18,9 @@
     //     exit;
     // }
 
-    $queryConditions = json_decode($_POST['cardQuery']);
+    $queryConditions =  json_decode($_POST['cardQuery']);
+    
+    echo($queryConditions->owner);
 
     $query = [];
 
@@ -31,8 +33,10 @@
     
 
     // only run if the user put owner = null 
-    if (isset($queryConditions->{'owner'}) && $queryConditions->{'owner'} === null) {
+    if (isset($queryConditions->owner) && $queryConditions->owner === null) {
         // Handle the case when 'owner' exists and is null
+        
+       
         $currentUserId = 2;
         $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
         $userTypeQuery->execute([
@@ -40,6 +44,7 @@
         ]);
         $userType = $userTypeQuery->fetchColumn();
         $params[] = $currentUserId;
+
 
     }
     
@@ -72,8 +77,12 @@
         $stmt->execute($params);
         
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        foreach ($jobs as &$job) {
+
+        if(count($jobs) > 0){
+            foreach ($jobs as &$job) {
+                $job['type'] = "applicant";
+            }
+        }else{
             $job['type'] = "applicant";
         }
     } elseif ($userType === "employer") {
@@ -96,10 +105,36 @@
         
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        foreach ($jobs as &$job) {
-            $job['type'] = "employer";
+        if(count($jobs) > 0){
+            foreach ($jobs as &$job) {
+                $job['type'] = "applicant";
+            }
+        }else{
+            $job['type'] = "applicant";
         }
-    } else {
+    } elseif($userType === "admin"){
+
+        $sql = "SELECT 
+                    JobPosts.posttitle AS jobTitle,
+                    Users.username AS companyName,
+                    JobPosts.description AS jobDescription
+                FROM JobPosts
+                INNER JOIN Users ON JobPosts.userid = Users.id";
+
+        if (!empty($conditions)) {
+            $sql .= "WHERE  " . implode(" AND ", $conditions);
+        }
+
+        $stmt = $myPDO->prepare($sql);
+        $stmt->execute($params);
+        
+        $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($jobs as &$job) {
+            $job['type'] = "admin";
+        }
+
+    }else {
         // Generic job posts for users browsing jobs
         $sql = "SELECT 
                     JobPosts.posttitle AS jobTitle,
@@ -124,4 +159,4 @@
     }
 
     // Return the fetched jobs as JSON
-    echo json_encode($jobs);
+    //echo json_encode($jobs);

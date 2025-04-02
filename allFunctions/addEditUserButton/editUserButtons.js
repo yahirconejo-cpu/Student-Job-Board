@@ -276,6 +276,7 @@ function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, use
     
             getChosenOptions.onreadystatechange = function () {
                 if (getChosenOptions.readyState === 4 && getChosenOptions.status === 200) {
+                    console.log(getChosenOptions.responseText);
                     userPreferences[nameChosen] = JSON.parse(getChosenOptions.responseText);
                     resolve();  // Resolve the promise once the request completes
                 } else if (getChosenOptions.readyState === 4) {

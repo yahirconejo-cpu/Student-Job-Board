@@ -206,6 +206,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //.....................................................................................................................................................................
 
+
+createJobCardInitialize("searchSectionResultsContainer", { "owner" : null});
+
 function checkIfValid() {
     let username = document.getElementsByName("username")[0].value;
     let password = document.getElementsByName("password")[0].value;
@@ -224,15 +227,14 @@ function checkIfValid() {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 alert(xhr.responseText);
+                username = "";
+                password = "";
                 updateKnownUsers();
             }
         };
 
         xhr.send(params);
 
-        // clear input
-        username = "";
-        password = "";
     }
 }
 

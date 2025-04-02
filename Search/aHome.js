@@ -1,0 +1,2 @@
+
+createJobCardInitialize("searchSectionResultsContainer", { "owner" : null});

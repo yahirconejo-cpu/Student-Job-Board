@@ -16,6 +16,7 @@
     <!-- for nav  -->
     <link rel="stylesheet" href="../allFunctions/createNavBar/createNavBar.css">
 
+    <!-- for cards -->
     <script src="../allFunctions/createJobCards/createJobCards.js"></script>
     
   </head>
@@ -54,17 +55,47 @@
       <div id="searchSectionMainContainer">
         <!-- search filter container or left side bar on big screen -->
         <div id="searchSectionAdditionalFilters">
-          <!-- search filters -->
-          <select name="Job Type">
-            <option value = "computer science">Computer Science</option>
+          <div id="searchSectionAdditionalFiltersContainer">
+            <!-- search filters -->
+            <label  for="jobTitle">Job Titles:</label>
+            <input style="width: calc(100% - 20px);" list="jobTitleData" name="jobTitle" >
+            <datalist id="jobTitleData" required>
+                <?php
+                    $jobTitlesQuery = $indexPDO->query("SELECT DISTINCT jobtitles FROM SettingsOptions WHERE jobtitles IS NOT NULL");
+                    while ($jobTitle = $jobTitlesQuery->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value=\"{$jobTitle['jobtitles']}\">{$jobTitle['jobtitles']}</option>";
+                    }
+                ?>
+            </datalist>
+            <div id="jobTitleErrorText"></div>
 
-          </select>
+            <label for="jobType">Job Type:</label>
+            <select id="jobType" name="jobType" required>
+              <option value=""></option>
+                <?php
+                    $jobTypesQuery = $indexPDO->query("SELECT DISTINCT jobtypes FROM SettingsOptions WHERE jobtypes IS NOT NULL");
+                    while ($jobType = $jobTypesQuery->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value=\"{$jobType['jobtypes']}\">{$jobType['jobtypes']}</option>";
+                    }
+                ?>
+            </select>
+
+            <label for="days">Work Days:</label>
+            <div id="days">
+                <?php
+                    // Fetch distinct work days from the database and generate checkboxes
+                    $workDaysQuery = $indexPDO->query("SELECT DISTINCT jobdays FROM SettingsOptions WHERE jobdays IS NOT NULL");
+                    while ($workDay = $workDaysQuery->fetch(PDO::FETCH_ASSOC)) {
+                        $workDayName = htmlspecialchars($workDay['jobdays']);
+                        echo "<label><input type='checkbox' name='days[]' value='$workDayName'> $workDayName</label><br>";
+                    }
+                ?>
+            </div>
+          </div>
           
         </div>
         <!-- search results or right side bar on big screens -->
         <div id="searchSectionResultsContainer">
-
-          
 
           
         </div>
@@ -73,7 +104,7 @@
     </div>
     
   
-    <script source="aHome.js"></script>
+    <script src="aHome.js"></script>
     <script src="../allFunctions/createNavBar/createNavBar.js"></script>
   </body>
 </html>

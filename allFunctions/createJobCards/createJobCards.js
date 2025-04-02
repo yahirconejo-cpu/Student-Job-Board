@@ -118,11 +118,15 @@ function createJobCardGenericCard(jobTitle, companyName, jobDescription, contain
   container.appendChild(box);
 }
 
+function createJobCardAdmin(){
+
+}
+
 // adds a add more job card
 // parm 1 @ container - element - the container that will hold the job cards
-function createJobCardAddMoreCard(container){
+function createJobCardAddMoreCard(container, link){
   const box = document.createElement("a");
-  box.href = "../Search/";
+  box.href = link;
   box.classList.add("createJobCardApplicationBoxAddMore");
 
   const pluseSign = document.createElement("div");
@@ -141,12 +145,12 @@ function createJobCardInitialize(container, quryCondition) {
   
   let xhr = new XMLHttpRequest();
   xhr.open("POST", "../allFunctions/createJobCards/createJobCards.php", true);
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
 
   xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-          let response = JSON.parse(xhr.responseText);// is a list with objects in it
-          console.log(response);
+          //let response = JSON.parse(xhr.responseText);// is a list with objects in it
+          console.log(xhr.responseText);
 
           let containerElement = document.getElementById(container);
           //containerElement.innerHTML = ""; // Clear existing job cards
@@ -154,21 +158,24 @@ function createJobCardInitialize(container, quryCondition) {
           response.forEach(job => {
               // Destructure job properties
               let { type, status, jobTitle, jobDescription, applicantsCount, companyName } = job;
-              console.log(type, status, jobTitle, jobDescription, applicantsCount, companyName);
+              console.log(type, status, jobTitle, jobDescription, applicantsCount, companyName );
               // Determine which job card function to call
               if (type === "applicant") {
                   createJobCardApplicant(status, jobTitle, jobDescription, containerElement);
+                  createJobCardAddMoreCard(containerElement, "../Search/");
+
               } else if (type === "employer") {
                   createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription, containerElement);
+                  createJobCardAddMoreCard(containerElement, "../Create/");
               } else if (type === "generic") {
                   createJobCardGenericCard(jobTitle, companyName, jobDescription, containerElement);
+              }else if(type === "admin"){
+                  //createJobCardAdmin();
               }
           });
 
-          // Add "Add More" button if applicable
-          createJobCardAddMoreCard(containerElement);
       }
   };
 
-  xhr.send("cardQuery=" + JSON.stringify(quryCondition));
+  xhr.send("cardQuery=" + encodeURIComponent(JSON.stringify(quryCondition)));
 }
