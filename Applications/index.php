@@ -30,51 +30,41 @@ if ($userType !== 'employer') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applications</title>
-    <style>
-        body { font-family: 'Roboto', sans-serif; margin: 20px; }
-        h2 { color: #333; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
-        th { background-color: #f4f4f4; }
-        a { color: blue; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-    </style>
+    <link rel="stylesheet" href="applications.css">
+
+    <script></script>
 </head>
 <body>
 
 <h2><?= $userType === 'employer' ? "All Job Applications" : "Your Job Applications" ?></h2>
 
-<!-- Resume Upload (Students Only) -->
 <?php if ($userType === 'student'): ?>
     <h3>Upload Your Resume (PDF only)</h3>
-    <form action="handleUpload.php" method="post" enctype="multipart/form-data">
-        <label for="resume">Choose PDF:</label>
-        <input type="file" name="resume" accept=".pdf" required>
-        <button type="submit">Upload Resume</button>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="resume">Choose your file (PDF, PNG, JPG):</label>
+        <input type="file" id="resume" name="resume" required>
+        <!-- <input type="hidden" id="jobpostid" value="<?php //echo $_GET['jobpostid']?>"> -->
+        <input type="hidden" id="jobpostid" value="12345">
+        <button type="button" onclick="processResumes()">Upload</button>
     </form>
+<div id="response"></div>
 <?php endif; ?>
 
-<!-- Applications Table -->
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Job Post ID</th>
-        <?= $userType === 'employer' ? "<th>Applicant</th>" : "" ?>
-        <th>Status</th>
-        <th>Resume</th>
-    </tr>
-
+<div class="application-box">
     <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
-        <tr>
-            <td><?= $row['id'] ?></td>
-            <td><?= $row['jobpostid'] ?></td>
-            <?= $userType === 'employer' ? "<td>{$row['applicant_name']}</td>" : "" ?>
-            <td><?= ucfirst($row['status']) ?></td>
-            <td><a href="../uploads/<?= htmlspecialchars($row['resumes']) ?>" target="_blank">Download</a></td>
-        </tr>
+        <div class="application-card">
+            <div class="job-title">Job Post ID: <?= $row['jobpostid'] ?></div>
+            <div class="job-description">
+                <?= $userType === 'employer' ? "<p>Applicant: {$row['applicant_name']}</p>" : "" ?>
+                <p>Status: <span class="status <?= strtolower($row['status']) ?>"><?= ucfirst($row['status']) ?></span></p>
+            </div>
+            <div class="action-buttons">
+                <a href="../Data/Uploads/<?= htmlspecialchars($row['resumes']) ?>" target="_blank">Download Resume</a>
+            </div>
+        </div>
     <?php endwhile; ?>
-
-</table>
+</div>
+<script src="applications.js"></script>
 
 </body>
 </html>

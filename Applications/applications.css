@@ -1,0 +1,94 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+h2 {
+    color: #333;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+}
+th, td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+th {
+    background-color: #f4f4f4;
+}
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.status {
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+.status.applied { background-color: blue; color: white; }
+.status.interviewing { background-color: yellow; color: black; }
+.status.waitlisted { background-color: gray; color: white; }
+.status.accepted { background-color: green; color: white; }
+.status.rejected { background-color: red; color: white; }
+
+/* Card-like box for job application */
+.application-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.application-card {
+    width: min(100cqw, 300px);
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.application-card:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.job-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.job-description {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.action-buttons a {
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.action-buttons a:hover {
+    background-color: #2980b9;
+}
