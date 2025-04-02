@@ -14,8 +14,7 @@
             $columns = $columnsQuery->fetchAll(PDO::FETCH_COLUMN, 1); 
 
             if (!in_array($column, $columns)) {
-                echo json_encode(["Invalid column"]);
-                exit;
+                echo [''];
             }
             
             $getOptions = $myPDO->query("SELECT $column FROM SettingsOptions");
@@ -67,6 +66,8 @@
     
         // Convert the array back to a JSON string for storage
         $chosenListJson = json_encode($chosenList);
+        
+        echo($chosenListJson);
 
         $myPDO = connectedPDO();
 
@@ -76,12 +77,27 @@
         // echo json_encode($columns);
 
         
-        $stmt = $myPDO->prepare("UPDATE Settings SET $column = :chosenList WHERE userid = :currentUserId");
+        // $stmt = $myPDO->prepare("UPDATE Settings SET $column = :chosenList WHERE userid = :currentUserId");
+        // $stmt->execute([
+        //     ':chosenList' => $chosenListJson,
+        //     ':currentUserId' => 1
+        // ]);
+
+        $query = "UPDATE Settings SET $column = :chosenList WHERE userid = :currentUserId";
+        $stmt = $myPDO->prepare($query);
         $stmt->execute([
             ':chosenList' => $chosenListJson,
             ':currentUserId' => 1
         ]);
 
-        echo 'Update successful'; 
+        // $columnsQuery = $myPDO->query("PRAGMA table_info(Settings)");
+        // $columns = $columnsQuery->fetchAll(PDO::FETCH_COLUMN, 1);
+
+        // echo json_encode($columns);
+
+        $getAllSettings = $myPDO->query("SELECT * FROM Users"); 
+        $settings = $getAllSettings->fetchAll(PDO::FETCH_ASSOC); 
+
+        echo (json_encode($settings));
 
     }
