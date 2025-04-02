@@ -32,7 +32,7 @@
   
   <!-- section ------------------------------------------- -->
   <?php
-    $userType = "employer";
+    $userType = "student";
   ?>
   
   <div id="studentOverview">

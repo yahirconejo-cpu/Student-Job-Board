@@ -47,6 +47,7 @@ function updateChosenOptions(option, chosenList, isChecked,  definedOpenedUserBu
     // Find list of all pos choces
     let originalKey = Object.keys(userPreferences).find(key => userPreferences[key] === chosenList);
     let allListKey = originalKey.replace("prefered", ""); // Remove "prefered" from key name
+
     var allList = userPreferences[allListKey];
 
     let chosenListJson = JSON.stringify(chosenList);
@@ -147,7 +148,6 @@ function createInputBox(option, container, currentData, user) {
     inputBox.type = "text";
 
     let index = container.children.length; // Get the index of the input box
-    
     if (index < currentData.length) {
         inputBox.value = currentData[index];
     } else {
@@ -224,6 +224,9 @@ function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, use
     userChosenType = type;
 
     var optionName = nameChosen.replace("prefered", "").trim();
+    if(optionName == nameChosen){
+        optionName = optionName + "Store";
+    }
     // stores all possible user data into userPreferences if not currently there
     // gets data from possible options table
     if (userPreferences[optionName] == undefined) {
@@ -260,7 +263,7 @@ function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, use
         // }
     }
     // creates list to store user selected data
-    // gets data from user table
+    // gets data from user table/
     if (userPreferences[nameChosen] == undefined) {
 
         // I need this to query the Settings table with the collume nameChosen
@@ -343,19 +346,24 @@ function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, use
 
 }
 
-function loadDataForEditUserButtons(allData, chosenData, optionName, container) {
+function loadDataForEditUserButtons(allData, chosenData, optionName, container, type) {
     if (allData != null) {
-        userPreferences[optionName] = allData;
+        let optionAll = optionName.replace('prefered', '');
+        if(optionAll == optionAll){
+            optionAll = optionAll + "Store";
+        }
+        userPreferences[optionAll] = allData;
         // updateChosenOptions(option, chosenList, isChecked);
         // userPreferences[name].forEach( option => updateChosenOptions(option, chosenData, true));
     } else {
         allData = [];
-    }
+    }//
 
     if (chosenData != null) {
-        var nameChosen = "prefered" + optionName ;
+        var nameChosen = optionName ;
         userPreferences[nameChosen] = chosenData;
-        userPreferences[nameChosen].forEach( option => updateChosenOptions(option, chosenData, true, container ));
+        //userPreferences[nameChosen].forEach( option => updateChosenOptions(option, chosenData, true, container ));
+       console.log(optionName);
     } else {
         chosenData = [];
     }
@@ -363,7 +371,7 @@ function loadDataForEditUserButtons(allData, chosenData, optionName, container) 
     // console.log(allData);
     // console.log(chosenData);
     // allData.forEach( option => updateChosenOptions(option, chosenData, true));
-
+    
 }
 
 // creates a button that will let the user to edit any user table collume
@@ -404,7 +412,7 @@ function createSettingSelectElements(header, elName, colName, type, ifSearchBar 
 
     // Load data for editUserButtons
     if (loadAllData != null || loadChosenData != null) {
-        loadDataForEditUserButtons(loadAllData, loadChosenData, colName, "selected" + elName);
+        loadDataForEditUserButtons(loadAllData, loadChosenData, colName, "selected" + elName, type);
     }
 
 }
