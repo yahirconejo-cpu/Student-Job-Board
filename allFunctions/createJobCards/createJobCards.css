@@ -49,7 +49,7 @@
 
 /* ___________________ employers box preveiew */
 
-.createJobCardEmployerBoxPreview {
+.createJobCardEmployer {
   position: relative;
   width: min(100cqw, 300px);
   height: 300px;
@@ -61,12 +61,12 @@
   cursor: pointer;
 }
 
-.createJobCardEmployerBoxPreview:hover {
+.createJobCardEmployer:hover {
   box-shadow: 2px 4px 16px 4px rgba(64, 64, 64, 0.8);
 }
 
 /* Status */
-.createJobCardEmployerStatus_open {
+.createJobCardEmployerStatus_accepting {
   background-color: #3498db;
   color: white;
 }

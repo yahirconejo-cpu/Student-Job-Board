@@ -20,10 +20,12 @@
   <title>Student</title>
   <link rel="stylesheet" href="sHome.css">
   <link rel="stylesheet" href="../allFunctions/createNavBar/createNavBar.css">
+  <link rel="stylesheet" href="../allFunctions/createJobCards/createJobCards.css">
 
   <link rel="stylesheet" href="../allFunctions/addEditUserButton/editUserButtons.css">
   <script src="../allFunctions/addEditUserButton/editUserButtons.js"></script>
   <script src="../allFunctions/Sanitization/checkValidInputs.js"></script>
+  <script src="../allFunctions/createJobCards/createJobCards.js"></script>
 </head>
   
   <?php
@@ -60,19 +62,22 @@
         <!-- appliaction container  -->
         <div id="applicationsContainer" class="rightSideBarSections">
           <div id="applicationBoxContainer">
+            <script>
+              createJobCardInitialize("applicationBoxContainer", { "owner" : null, "jobType": "fullTime", "bob": "cool"});
+            </script>
             <!-- apllicationBoxPreview Template -->
-            <div class="applicationBoxPreview">
+            <!-- <div class="applicationBoxPreview">
               <div class="status accepted">Accepted</div>
               <div class="jobTitle">Computer Science</div>
               <div class="jobDescription">
                 <div class="jobDescriptionText">As a Computer Science Engineer, your role involves designing, developing, and maintaining software applications and systems. You will write and optimize code, ensuring that programs function efficiently and securely. Your work includes analyzing problems, creating solutions through algorithms, and implementing those solutions in various programming languages. You will collaborate with other engineers, designers, and stakeholders to build and improve software, troubleshoot bugs, and enhance system performance. Your responsibilities may also include working with databases, integrating APIs, and ensuring cybersecurity measures are in place.</div>
                 <div class="jobDescriptionFade"></div>
               </div>
-            </div>
+            </div> -->
             <!--  Employer Box -->
 
             <!-- Employer Box Preview -->
-            <div class="employerBoxPreview">
+            <!-- <div class="employerBoxPreview">
               <div class="status open">Open Position</div>
               <div class="jobTitle">Computer Science</div>
               <div class="jobApplicants">Applicants: <span class="applicantCount">25</span></div>
@@ -94,10 +99,10 @@
                 </div>
                 <div class="jobDescriptionFade"></div>
               </div>
-            </div>
+            </div> -->
 
             <!-- generic box  -->
-            <div class="jobPostingBox">
+            <!-- <div class="jobPostingBox">
               <div class="jobTitle">Software Engineer</div>
               <div class="companyName">TechCorp Inc.</div>
               <div class="jobDescription">
@@ -107,15 +112,15 @@
                 <div class="jobDescriptionFade"></div>
               </div>
               <button class="applyButton">Apply Now</button>
-            </div>
+            </div> -->
             <!-- admin box preview -->
             
             <!-- call to action add more boxes -->
-            <a class="applicationBoxAddMore">
+            <!-- <a class="applicationBoxAddMore">
               <div class="applicationBoxAddMoreSign">
                   +
               </div>
-            </a>
+            </a> -->
             
             
           </div>
