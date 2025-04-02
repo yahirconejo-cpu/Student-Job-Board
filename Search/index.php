@@ -1,5 +1,8 @@
 <?php
   include("../allFunctions/createNavBar/createNavBar.php");
+  include_once("../allFunctions/connectPDO.php");
+
+  $indexPDO = connectedPDO();
 ?>
 <!DOCTYPE html>
 <html>
@@ -8,9 +11,12 @@
     <meta name="viewport" content="width=device-width">
     <title>replit</title>
     <link rel="stylesheet" href="aHome.css" >
+    <link rel="stylesheet" href="../allFunctions/createJobCards/createJobCards.css">
   
     <!-- for nav  -->
     <link rel="stylesheet" href="../allFunctions/createNavBar/createNavBar.css">
+
+    <script src="../allFunctions/createJobCards/createJobCards.js"></script>
     
   </head>
   <body>
@@ -57,6 +63,9 @@
         </div>
         <!-- search results or right side bar on big screens -->
         <div id="searchSectionResultsContainer">
+
+          
+
           
         </div>
       </div>

@@ -123,6 +123,14 @@ body::-webkit-scrollbar {
     color: red;
 }
 
+/* General Style for the Days Section */
+#days label{
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+
 
 #addAnotherShiftJobPost{
     position: relative;

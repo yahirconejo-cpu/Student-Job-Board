@@ -54,15 +54,26 @@
                 ?>
             </select>
 
-            <label for="days">Work Days:</label>
-            <select id="days" name="days" required>
+            <!-- <label for="days">Work Days:</label>
+            <select id="days" name="days" multiple required>
                 <?php
+                    // $workDaysQuery = $indexPDO->query("SELECT DISTINCT jobdays FROM SettingsOptions WHERE jobdays IS NOT NULL");
+                    // while ($workDay = $workDaysQuery->fetch(PDO::FETCH_ASSOC)) {
+                    //     echo "<option value=\"{$workDay['jobdays']}\">{$workDay['jobdays']}</option>";
+                    // }
+                ?>
+            </select> -->
+            <label for="days">Work Days:</label>
+            <div id="days">
+                <?php
+                    // Fetch distinct work days from the database and generate checkboxes
                     $workDaysQuery = $indexPDO->query("SELECT DISTINCT jobdays FROM SettingsOptions WHERE jobdays IS NOT NULL");
                     while ($workDay = $workDaysQuery->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<option value=\"{$workDay['jobdays']}\">{$workDay['jobdays']}</option>";
+                        $workDayName = htmlspecialchars($workDay['jobdays']);
+                        echo "<label><input type='checkbox' name='days[]' value='$workDayName'> $workDayName</label><br>";
                     }
                 ?>
-            </select>
+            </div>
 
             <label for="shifts">Shifts:</label>
             <div id="allShifts">
@@ -83,16 +94,37 @@
 
             <div id="responseMessage">
                 <?php
-                     $indexPDO = connectedPDO();
+                    $indexPDO = connectedPDO();
 
-                     $query = "SELECT * FROM JobPosts"; // Select everything from JobPosts table
-                     $stmt = $indexPDO->query($query); // Execute the query
-                     
-                     // Fetch all rows from the query result
-                     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                     
-                     // Output the rows as JSON
-                     echo json_encode($rows);
+                    $query = "SELECT * FROM JobPosts"; // Select everything from JobPosts table
+                    $stmt = $indexPDO->query($query); // Execute the query
+                    
+                    // Fetch all rows from the query result
+                    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    
+                    // Start the table
+                    echo "<table border='1'>";
+                    
+                    // Generate the table headers dynamically
+                    if (!empty($rows)) {
+                        echo "<tr>";
+                        foreach (array_keys($rows[0]) as $column) {
+                            echo "<th>{$column}</th>";
+                        }
+                        echo "</tr>";
+                    }
+                    
+                    // Generate the table rows
+                    foreach ($rows as $row) {
+                        echo "<tr>";
+                        foreach ($row as $cell) {
+                            echo "<td>{$cell}</td>";
+                        }
+                        echo "</tr>";
+                    }
+                    
+                    // Close the table
+                    echo "</table>";
                    
                 ?>
             </div>

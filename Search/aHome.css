@@ -79,14 +79,16 @@ body::-webkit-scrollbar {
   position: relative;
   width: 180px;
   height: 100%;
-  background: linear-gradient(120deg, rgba(27,15,112,1) 0%, rgba(10,181,230,1) 40%, rgba(106,222,255,1) 90%);
- 
-  /* background: linear-gradient(34deg, rgb(19, 229, 236) 0%, rgb(86, 183, 215) 83%, rgb(60, 162, 226) 100%);
+  /* background: linear-gradient(120deg, rgba(27,15,112,1) 0%, rgba(10,181,230,1) 40%, rgba(106,222,255,1) 90%);
   */
+  background: linear-gradient(34deg, rgb(19, 229, 236) 0%, rgb(86, 183, 215) 83%, rgb(60, 162, 226) 100%);
+ 
   display: flex; 
   flex-direction: column;
   align-items: center;
 }
+
+
 
 
 
@@ -98,7 +100,7 @@ body::-webkit-scrollbar {
 #searchSectionResultsContainer{
   position: relative;
   background-color: #ffffff;
-  calc(100% - 180px);
+  width: calc(100% - 180px);
   height: 100%;
   display: flex;
   flex-wrap: wrap;

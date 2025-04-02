@@ -93,7 +93,11 @@ function createJobPost(){
     let description = encodeURIComponent(document.getElementById("description").value);
     let jobTitle = encodeURIComponent(document.querySelector("input[name='jobTitle']").value);
     let jobType = encodeURIComponent(document.getElementById("jobType").value);
-    let days = encodeURIComponent(document.getElementById("days").value);
+    
+    let days = Array.from(document.querySelectorAll("input[name='days[]']:checked"))
+    .map(checkbox => encodeURIComponent(checkbox.value))
+    .join(','); 
+
     let pay = encodeURIComponent(document.getElementById("pay").value);
     let address = encodeURIComponent(document.getElementById("address").value);
 
