@@ -29,25 +29,21 @@
     $conditions = [];
     $params = [];
     
-    echo(json_encode($queryConditions));
 
     // only run if the user put owner = null 
-    // if(array_key_exists('owner', $queryConditions)){
-    //     if($queryConditions['owner'] === null){
-    //         //$currentUserId = $_SESSION['userid'];
-           
-    //     }
-    // }
-    
-    $currentUserId = 2;
-    $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
-    $userTypeQuery->execute([
-        $currentUserId
-    ]);
-    $userType = $userTypeQuery->fetchColumn();
-    $params[] = $currentUserId;
+    if (isset($queryConditions->{'owner'}) && $queryConditions->{'owner'} === null) {
+        // Handle the case when 'owner' exists and is null
+        $currentUserId = 2;
+        $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
+        $userTypeQuery->execute([
+            $currentUserId
+        ]);
+        $userType = $userTypeQuery->fetchColumn();
+        $params[] = $currentUserId;
 
-    // Build SQL query based on provided conditions
+    }
+    
+    // // Build SQL query based on provided conditions
 
     foreach ($queryConditions as $key => $value) {
         if ($value !== null) {
@@ -59,73 +55,73 @@
 
 
     // Determine the type of jobs to fetch based on user type
-    // if ($userType === "student") {
-    //     $sql = "SELECT 
-    //                 Applications.status AS status,
-    //                 JobPosts.posttitle AS jobTitle,
-    //                 JobPosts.description AS jobDescription
-    //             FROM Applications
-    //             INNER JOIN JobPosts ON Applications.jobpostid = JobPosts.id
-    //             WHERE Applications.userid = ?";
+    if ($userType === "student") {
+        $sql = "SELECT 
+                    Applications.status AS status,
+                    JobPosts.posttitle AS jobTitle,
+                    JobPosts.description AS jobDescription
+                FROM Applications
+                INNER JOIN JobPosts ON Applications.jobpostid = JobPosts.id
+                WHERE Applications.userid = ?";
 
-    //     if (!empty($conditions)) {
-    //         $sql .= " AND " . implode(" AND ", $conditions);
-    //     }
+        if (!empty($conditions)) {
+            $sql .= " AND " . implode(" AND ", $conditions);
+        }
 
-    //     $stmt = $myPDO->prepare($sql);
-    //     $stmt->execute($params);
+        $stmt = $myPDO->prepare($sql);
+        $stmt->execute($params);
         
-    //     $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-    //     foreach ($jobs as &$job) {
-    //         $job['type'] = "applicant";
-    //     }
-    // } elseif ($userType === "employer") {
-    //     $sql = "SELECT 
-    //                 JobPosts.poststatus AS status,
-    //                 JobPosts.posttitle AS jobTitle,
-    //                 JobPosts.description AS jobDescription,
-    //                 (SELECT COUNT(*) FROM Applications WHERE Applications.jobpostid = JobPosts.id) AS applicantsCount
-    //             FROM JobPosts
-    //             WHERE JobPosts.userid = ?";
+        foreach ($jobs as &$job) {
+            $job['type'] = "applicant";
+        }
+    } elseif ($userType === "employer") {
+        $sql = "SELECT 
+                    JobPosts.poststatus AS status,
+                    JobPosts.posttitle AS jobTitle,
+                    JobPosts.description AS jobDescription,
+                    (SELECT COUNT(*) FROM Applications WHERE Applications.jobpostid = JobPosts.id) AS applicantsCount
+                FROM JobPosts
+                WHERE JobPosts.userid = ?";
 
-    //     if (!empty($conditions)) {
-    //         $sql .= " AND " . implode(" AND ", $conditions);
-    //     }
+        if (!empty($conditions)) {
+            $sql .= " AND " . implode(" AND ", $conditions);
+        }
 
-    //     $params[] = $currentUserId;
+        $params[] = $currentUserId;
 
-    //     $stmt = $myPDO->prepare($sql);
-    //     $stmt->execute($params);
+        $stmt = $myPDO->prepare($sql);
+        $stmt->execute($params);
         
-    //     $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-    //     foreach ($jobs as &$job) {
-    //         $job['type'] = "employer";
-    //     }
-    // } else {
-    //     // Generic job posts for users browsing jobs
-    //     $sql = "SELECT 
-    //                 JobPosts.posttitle AS jobTitle,
-    //                 Users.username AS companyName,
-    //                 JobPosts.description AS jobDescription
-    //             FROM JobPosts
-    //             INNER JOIN Users ON JobPosts.userid = Users.id
-    //             WHERE JobPosts.adminstatus = 'accepted' AND JobPosts.poststatus = 'accepting'";
+        foreach ($jobs as &$job) {
+            $job['type'] = "employer";
+        }
+    } else {
+        // Generic job posts for users browsing jobs
+        $sql = "SELECT 
+                    JobPosts.posttitle AS jobTitle,
+                    Users.username AS companyName,
+                    JobPosts.description AS jobDescription
+                FROM JobPosts
+                INNER JOIN Users ON JobPosts.userid = Users.id
+                WHERE JobPosts.adminstatus = 'accepted' AND JobPosts.poststatus = 'accepting'";
 
-    //     if (!empty($conditions)) {
-    //         $sql .= " AND " . implode(" AND ", $conditions);
-    //     }
+        if (!empty($conditions)) {
+            $sql .= " AND " . implode(" AND ", $conditions);
+        }
 
-    //     $stmt = $myPDO->prepare($sql);
-    //     $stmt->execute($params);
+        $stmt = $myPDO->prepare($sql);
+        $stmt->execute($params);
         
-    //     $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-    //     foreach ($jobs as &$job) {/
-    //         $job['type'] = "generic";
-    //     }
-    // }
+        foreach ($jobs as &$job) {
+            $job['type'] = "generic";
+        }
+    }
 
-    // // Return the fetched jobs as JSON
-    // echo json_encode($jobs);
+    // Return the fetched jobs as JSON
+    echo json_encode($jobs);

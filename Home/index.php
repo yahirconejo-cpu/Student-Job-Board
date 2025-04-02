@@ -63,7 +63,7 @@
         <div id="applicationsContainer" class="rightSideBarSections">
           <div id="applicationBoxContainer">
             <script>
-              createJobCardInitialize("applicationBoxContainer", { "owner" : null, "jobType": "fullTime", "bob": "cool"});
+              createJobCardInitialize("applicationBoxContainer", { "owner" : null});
             </script>
             <!-- apllicationBoxPreview Template -->
             <!-- <div class="applicationBoxPreview">

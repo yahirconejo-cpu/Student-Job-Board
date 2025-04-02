@@ -178,6 +178,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .createJobCardApplicationBoxAddMore:hover{
@@ -192,5 +193,6 @@
 .createJobCardApplicationBoxAddMoreSign{
   font-size: 80px;
   color: #48494c;
+  text-decoration: none;
   transition: rotate 0.3s ease-in, color 0.3s ease-in;
 }

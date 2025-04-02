@@ -145,29 +145,28 @@ function createJobCardInitialize(container, quryCondition) {
 
   xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-          console.log(xhr.responseText);
-          // let response = JSON.parse(xhr.responseText);// is a list with objects in it
-          // console.log(response);
+          let response = JSON.parse(xhr.responseText);// is a list with objects in it
+          console.log(response);
 
-          // let containerElement = document.getElementById(container);
-          // //containerElement.innerHTML = ""; // Clear existing job cards
+          let containerElement = document.getElementById(container);
+          //containerElement.innerHTML = ""; // Clear existing job cards
 
-          // response.forEach(job => {
-          //     // Destructure job properties
-          //     let { type, status, jobTitle, jobDescription, applicantsCount, companyName } = job;
-          //     console.log(type, status, jobTitle, jobDescription, applicantsCount, companyName);
-          //     // Determine which job card function to call
-          //     if (type === "applicant") {
-          //         createJobCardApplicant(status, jobTitle, jobDescription, containerElement);
-          //     } else if (type === "employer") {
-          //         createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription, containerElement);
-          //     } else if (type === "generic") {
-          //         createJobCardGenericCard(jobTitle, companyName, jobDescription, containerElement);
-          //     }
-          // });
+          response.forEach(job => {
+              // Destructure job properties
+              let { type, status, jobTitle, jobDescription, applicantsCount, companyName } = job;
+              console.log(type, status, jobTitle, jobDescription, applicantsCount, companyName);
+              // Determine which job card function to call
+              if (type === "applicant") {
+                  createJobCardApplicant(status, jobTitle, jobDescription, containerElement);
+              } else if (type === "employer") {
+                  createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription, containerElement);
+              } else if (type === "generic") {
+                  createJobCardGenericCard(jobTitle, companyName, jobDescription, containerElement);
+              }
+          });
 
-          // // Add "Add More" button if applicable
-          // createJobCardAddMoreCard(containerElement);
+          // Add "Add More" button if applicable
+          createJobCardAddMoreCard(containerElement);
       }
   };
 
