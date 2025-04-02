@@ -32,29 +32,33 @@
     
     //  && $queryConditions->owner == ""
 
-    // only run if the user put owner = null 
-    if (array_key_exists( "owner", $queryConditions) && empty($queryConditions->owner)) {
-        // Handle the case when 'owner' exists and is null
-        $currentUserId = 2;
-        $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
-        $userTypeQuery->execute([
-            $currentUserId
-        ]);
-        $userType = $userTypeQuery->fetchColumn();
-        $params[] = $currentUserId;
+   if ($queryConditions != null) {
+
+        // only run if the user put owner = null 
+        if (array_key_exists( "owner", $queryConditions) && empty($queryConditions->owner)) {
+            // Handle the case when 'owner' exists and is null
+            $currentUserId = 2;
+            $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
+            $userTypeQuery->execute([
+                $currentUserId
+            ]);
+            $userType = $userTypeQuery->fetchColumn();
+            $params[] = $currentUserId;
 
 
 
-    }
-    
-    // // Build SQL query based on provided conditions
-
-    foreach ($queryConditions as $key => $value) {
-        if ($value !== null) {
-            array_push($conditions, "$key = ?");
-            array_push($params,  $value);
         }
-    }
+        
+        // // Build SQL query based on provided conditions
+
+        foreach ($queryConditions as $key => $value) {
+            if ($value !== null) {
+                array_push($conditions, "$key = ?");
+                array_push($params,  $value);
+            }
+        }
+
+    } 
 
 
 
@@ -158,4 +162,4 @@
     }
 
     // Return the fetched jobs as JSON
-   echo json_encode($jobs) == "[]"? json_encode((object) array("type" => $userType)) : json_encode($jobs) ;
+   echo json_encode($jobs) == "[]"? json_encode( array("type" => $userType)) : json_encode($jobs) ;
