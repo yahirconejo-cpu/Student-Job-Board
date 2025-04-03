@@ -39,28 +39,26 @@ $stmtApplications->execute([':postid' => $jobpostid]);
 
 <div class="application-box">
     <!-- Student Section: Display Job Post Details & Application Form -->
+    <div class="application-card">
+        <p><strong>Title:</strong> <?= htmlspecialchars($job['posttitle']) ?></p>
+        <p><strong>Type:</strong> <?= htmlspecialchars($job['jobtype']) ?></p>
+        <p><strong>Days:</strong> <?= htmlspecialchars($job['jobdays']) ?></p>
+        <p><strong>Shifts:</strong> <?= htmlspecialchars($job['shifts']) ?></p>
+        <p><strong>Pay:</strong> $<?= htmlspecialchars(number_format((float) $job['pay'], 2)) ?>/hr</p>
+        <p><strong>Location:</strong> <?= htmlspecialchars($job['address'] ?? 'N/A') ?></p>
+        <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($job['description'])) ?></p>
     <?php if ($userType == 'student'): ?>
-        <div class="application-card">
-            <p><strong>Title:</strong> <?= htmlspecialchars($job['posttitle']) ?></p>
-            <p><strong>Type:</strong> <?= htmlspecialchars($job['jobtype']) ?></p>
-            <p><strong>Days:</strong> <?= htmlspecialchars($job['jobdays']) ?></p>
-            <p><strong>Shifts:</strong> <?= htmlspecialchars($job['shifts']) ?></p>
-            <p><strong>Pay:</strong> $<?= htmlspecialchars(number_format((float) $job['pay'], 2)) ?>/hr</p>
-            <p><strong>Location:</strong> <?= htmlspecialchars($job['address'] ?? 'N/A') ?></p>
-            <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($job['description'])) ?></p>
-
-            <form class="applyForm" enctype="multipart/form-data">
-                <input type="hidden" name="postid" value="<?= isset($_GET['postid']) ? htmlspecialchars($_GET['postid']) : '' ?>">
-                <label for="resume">Upload Resume (PDF, PNG, JPG):</label>
-                <input type="file" name="resume" required>
-                <label for="motivation">Why do you want this job? (200 words max)</label>
-                <textarea name="motivation" rows="4" maxlength="200" required></textarea>
-                <button type="button" onclick="processApplication(this)">Apply</button>
-            </form>
-            <div class="response"></div>
-        </div>
+        <form class="applyForm" enctype="multipart/form-data">
+            <input type="hidden" name="postid" value="<?= isset($_GET['postid']) ? htmlspecialchars($_GET['postid']) : '' ?>">
+            <label for="resume">Upload Resume (PDF, PNG, JPG):</label>
+            <input type="file" name="resume" required>
+            <label for="motivation">Why do you want this job? (200 words max)</label>
+            <textarea name="motivation" rows="4" maxlength="200" required></textarea>
+            <button type="button" onclick="processApplication(this)">Apply</button>
+        </form>
+        <div class="response"></div>
     <?php endif; ?>
-
+    </div>
     <!-- Employer Section: Loop through Applications -->
     <?php if ($userType == 'employer'): ?>
         <?php while ($row = $stmtApplications->fetch(PDO::FETCH_ASSOC)): ?>
