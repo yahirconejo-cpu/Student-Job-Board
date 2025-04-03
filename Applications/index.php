@@ -1,12 +1,15 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include_once("../allFunctions/connectPDO.php");
 
 $pdo = connectedPDO();
-$currentUserId = 2; // Test ID
-$userType = 'employer'; // Change to 'employer' for employer view
+$currentUserId = 1; // Test ID
+$userType = 'student'; // Change to 'employer' for employer view
 
-//$jobpostid = $_GET['postid'] ?? null;
-$jobpostid = 2;
+$jobpostid = isset($_GET['postid']) ? intval($_GET['postid']) : 0;
 
 // Fetch the job post details
 $stmtJobs = $pdo->prepare("SELECT * FROM JobPosts WHERE id = :postid"); // Ensure column name is correct
@@ -42,12 +45,12 @@ $stmtApplications->execute([':postid' => $jobpostid]);
             <p><strong>Type:</strong> <?= htmlspecialchars($job['jobtype']) ?></p>
             <p><strong>Days:</strong> <?= htmlspecialchars($job['jobdays']) ?></p>
             <p><strong>Shifts:</strong> <?= htmlspecialchars($job['shifts']) ?></p>
-            <p><strong>Pay:</strong> $<?= htmlspecialchars(number_format($job['pay'], 2)) ?>/hr</p>
+            <p><strong>Pay:</strong> $<?= htmlspecialchars(number_format((float) $job['pay'], 2)) ?>/hr</p>
             <p><strong>Location:</strong> <?= htmlspecialchars($job['address'] ?? 'N/A') ?></p>
             <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($job['description'])) ?></p>
 
             <form class="applyForm" enctype="multipart/form-data">
-                <input type="hidden" name="jobpostid" value="<?= $jobpostid ?>">
+                <input type="hidden" name="postid" value="<?= isset($_GET['postid']) ? htmlspecialchars($_GET['postid']) : '' ?>">
                 <label for="resume">Upload Resume (PDF, PNG, JPG):</label>
                 <input type="file" name="resume" required>
                 <label for="motivation">Why do you want this job? (200 words max)</label>
