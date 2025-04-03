@@ -36,7 +36,7 @@ $stmtApplications->execute([':postid' => $jobpostid]);
 <body>
 
 <h2><?= $userType == 'employer' ? "All Job Applications" : "Submit your application!" ?></h2>
-
+<a href="../Search/index.php" class="exit-button">✖</a>
 <div class="application-box">
     <!-- Student Section: Display Job Post Details & Application Form -->
     <div class="application-card">
@@ -63,7 +63,6 @@ $stmtApplications->execute([':postid' => $jobpostid]);
     <?php if ($userType == 'employer'): ?>
         <?php while ($row = $stmtApplications->fetch(PDO::FETCH_ASSOC)): ?>
             <div class="application-card">                
-                <p><strong>Applicant</strong> <span class="status"></span></p>
                 <p><strong>Status:</strong> <span class="status <?= strtolower($row['status']) ?>"><?= ucfirst($row['status']) ?></span></p>
                 <a href="../Data/Uploads/<?= htmlspecialchars($row['resumes']) ?>" target="_blank">Download Resume</a>
                 <div id="optionBtnsContainer">
