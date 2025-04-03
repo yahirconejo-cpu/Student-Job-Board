@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function() {
 //.....................................................................................................................................................................
 
 
-createJobCardInitialize("searchSectionResultsContainer", { "owner" : null});
+createJobCardInitialize("jobPostsContainer", { "owner" : null});
 
 function checkIfValid() {
     let username = document.getElementsByName("username")[0].value;

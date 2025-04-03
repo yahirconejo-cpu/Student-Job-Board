@@ -37,15 +37,12 @@
         // only run if the user put owner = null 
         if (array_key_exists( "owner", $queryConditions) && empty($queryConditions->owner)) {
             // Handle the case when 'owner' exists and is null
-            $currentUserId = 2;
+            $currentUserId = 3;
             $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
             $userTypeQuery->execute([
                 $currentUserId
             ]);
             $userType = $userTypeQuery->fetchColumn();
-            $params[] = $currentUserId;
-
-
 
         }
         
@@ -77,6 +74,8 @@
             $sql .= " AND " . implode(" AND ", $conditions);
         }
 
+        array_unshift($params, $currentUserId);
+
         $stmt = $myPDO->prepare($sql);
         $stmt->execute($params);
         
@@ -106,6 +105,7 @@
             $sql .= " AND " . implode(" AND ", $conditions);
         }
 
+        array_unshift($params, $currentUserId);
 
         $stmt = $myPDO->prepare($sql);
         $stmt->execute($params);
@@ -121,12 +121,16 @@
         }
     } elseif($userType === "admin"){
 
-        $sql = "SELECT 
-                    JobPosts.id AS postId,
-                    JobPosts.adminstatus AS status,
-                    JobPosts.posttitle AS jobTitle,
-                    JobPosts.description AS jobDescription
-                FROM JobPosts";
+        $sql = "SELECT  
+            JobPosts.id AS postId, 
+            JobPosts.adminstatus AS status, 
+            JobPosts.posttitle AS jobTitle, 
+            JobPosts.description AS jobDescription, 
+            Users.username AS companyName,
+            (SELECT COUNT(*) FROM Applications WHERE jobpostid = JobPosts.id) AS applicantsCount
+            FROM JobPosts
+            JOIN Users ON JobPosts.userid = Users.id
+            ";
 
         if (!empty($conditions)) {
             $sql .= " WHERE  " . implode(" AND ", $conditions);
@@ -144,6 +148,7 @@
     }else {
         // Generic job posts for users browsing jobs
         $sql = "SELECT 
+            JobPosts.id AS postId, 
             JobPosts.posttitle AS jobTitle,
             Users.username AS companyName,
             JobPosts.description AS jobDescription

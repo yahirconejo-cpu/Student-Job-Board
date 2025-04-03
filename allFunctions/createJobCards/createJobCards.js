@@ -145,7 +145,9 @@ function createJobCardAdmin(postId, jobTitle, companyName, jobDescription, conta
   const acceptBtn = document.createElement("button");
   acceptBtn.classList.add("createJobCardAcceptButton");
   acceptBtn.innerHTML = "Accept";
-  acceptBtn.onclick = function() {
+  acceptBtn.onclick = function(event) {
+      event.stopPropagation();
+      event.preventDefault();
       updateJobStatus(postId, "accepted", box);
   };
   box.appendChild(acceptBtn);
@@ -154,12 +156,29 @@ function createJobCardAdmin(postId, jobTitle, companyName, jobDescription, conta
   const denyBtn = document.createElement("button");
   denyBtn.classList.add("createJobCardDenyButton");
   denyBtn.innerHTML = "Deny";
-  denyBtn.onclick = function() {
+  denyBtn.onclick = function(event) {
+      event.stopPropagation();
+      event.preventDefault();
       updateJobStatus(postId, "denied", box);
   };
   box.appendChild(denyBtn);
 
   container.appendChild(box);
+}
+
+function updateJobStatus(postId, newStatus, cardElement) {
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "../allFunctions/createJobCards/updateJobStatus.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(`Job ${postId} updated to ${newStatus}:`, xhr.responseText);
+          cardElement.remove();
+      }
+  };
+
+  xhr.send(`postId=${postId}&status=${newStatus}`);
 }
 
 // adds a add more job card
@@ -227,7 +246,7 @@ function createJobCardInitialize(container, quryCondition) {
                     createJobCardGenericCard(postId, jobTitle, companyName, jobDescription, containerElement);
                   }
               }else if(type === "admin"){
-                  createJobCardAdmin(postId, jobTitle, companyName, jobDescription, container)
+                  createJobCardAdmin(postId, jobTitle, companyName, jobDescription, containerElement);
               }
           });
 
@@ -235,9 +254,9 @@ function createJobCardInitialize(container, quryCondition) {
               createJobCardAddMoreCard(containerElement, "../Search/");
           } else if (lastType === "employer") {
               createJobCardAddMoreCard(containerElement, "../Create/");
-          } else if (lastType === "generic") {
+          } else if (lastType === "generic" && containerElement.children.length == 0) {
               noFoundQueryResponse(containerElement, "Sorry Your Query Had Zero Results");
-          }else if(lastType === "admin"){
+          }else if(lastType === "admin" && containerElement.children.length == 0){
               noFoundQueryResponse(containerElement, "No New Jobs Made");
           }
 

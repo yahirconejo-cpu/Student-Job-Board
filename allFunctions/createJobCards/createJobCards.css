@@ -9,6 +9,8 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  text-decoration: none;
+  color: black;
 }
 
 .createJobCardApplicant:hover{
@@ -59,6 +61,8 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  text-decoration: none;
+  color: black;
 }
 
 .createJobCardEmployer:hover {
@@ -98,6 +102,8 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  text-decoration: none;
+  color: black;
 }
 
 .createJobCardGenericCard:hover{
@@ -127,6 +133,91 @@
   background-color: #0056b3;
 }
 
+/* __________________ Admin Job Card __________________ */
+.createJobCardAdmin {
+  position: relative;
+  width: min(100cqw, 300px);
+  height: 350px; /* Slightly taller to fit buttons */
+  background-color: white;
+  box-shadow: 2px 4px 16px rgba(64, 64, 64, 0.8);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  padding: 15px;
+}
+
+.createJobCardAdmin:hover {
+  box-shadow: 2px 4px 16px 4px rgba(64, 64, 64, 0.8);
+}
+
+/* Admin Job Title */
+.createJobCardAdmin .createJobCardJobTitle {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Admin Employer Name */
+.createJobCardAdmin .createJobCardEmployerName {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* Admin Job Description */
+.createJobCardAdmin .createJobCardJobDescription {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #444;
+  flex-grow: 1; /* Allow text to expand */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Container for Accept/Deny Buttons */
+.adminActionButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* Accept Button */
+.acceptButton {
+  flex: 1;
+  padding: 10px;
+  margin-right: 5px;
+  background-color: #28a745; /* Green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.acceptButton:hover {
+  background-color: #218838;
+}
+
+/* Deny Button */
+.denyButton {
+  flex: 1;
+  padding: 10px;
+  margin-left: 5px;
+  background-color: #dc3545; /* Red */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.denyButton:hover {
+  background-color: #c82333;
+}
 
 
 /* Job Title & and Descriptor ------------------------------*/
@@ -211,4 +302,6 @@
   text-align: center;
   box-shadow: 2px 4px 16px rgba(64, 64, 64, 0.8);
   margin: 20px 10px;
+  text-decoration: none;
+  color: black;
 }

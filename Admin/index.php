@@ -58,6 +58,7 @@
                         <select id="userType" name="userType">
                             <option value="student">Student</option>
                             <option value="employer">Employer</option>
+                            <option value="admin">Admin</option>
                         </select>
                     <button type="button" onclick="checkIfValid();">Submit!</button>
                 </form>
