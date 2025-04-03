@@ -99,6 +99,7 @@
   background-color: white;
   box-shadow: 2px 4px 16px rgba(64, 64, 64, 0.8);
   border-radius: 4px;
+  /* margin-top: 20px; */
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -223,7 +224,7 @@
 /* Job Title & and Descriptor ------------------------------*/
 
 .createJobCardJobTitle {
-  margin: 0px 15px;
+  margin: 15px 15px 0px;
   font-size: 24px;
   width: 200px;
   height: fit-content;

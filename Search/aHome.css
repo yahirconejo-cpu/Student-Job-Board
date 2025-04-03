@@ -46,7 +46,7 @@ body::-webkit-scrollbar {
 #searchSectionSearchBarContainerBackground svg.waves{
   position: absolute;
   bottom: 0;
-  righ: 0;
+  right: 0;
   transform: rotate(-90deg) translate(0px, 200px);
   width: 170px;
   height: 80px;
@@ -122,8 +122,11 @@ body::-webkit-scrollbar {
   position: relative;
   background-color: #ffffff;
   width: calc(100% - 180px);
+  padding-top: 20px;
   height: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
 
