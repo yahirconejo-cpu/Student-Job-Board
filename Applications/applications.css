@@ -17,6 +17,32 @@ h2 {
 }
 
 /* Student Full-Screen Application Box */
+.exit-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    text-decoration: none;
+    color: black;
+    background: white;
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.exit-button:hover {
+    background: red;
+    color: white;
+    border-color: red;
+}
+
+
 .application-box {
     width: 100%;
     max-width: 800px;

@@ -1,11 +1,4 @@
 <?php
-include_once("../allFunctions/connectPDO.php");
-
-
-$pdo = connectedPDO();
-
-$currentUserId = 1; // For testing purposes
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['resume']) && $_FILES['resume']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['resume']['tmp_name'];
@@ -40,7 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':status' => 'pending'
         ]);
 
-        echo "✅ Application submitted successfully!<br>📄 File saved as: <a href='$destPath' target='_blank'>$newFileName</a>";
+        // ✅ Success message & redirect (after 3 seconds)
+        echo "✅ Application submitted successfully! Redirecting to home page...";
+        echo "<script>
+                setTimeout(function() {
+                    window.location.href = '../Home/index.php';
+                }, 3000); // 3-second delay
+              </script>";
+        exit;
     } else {
         echo "❌ No file uploaded.";
     }
