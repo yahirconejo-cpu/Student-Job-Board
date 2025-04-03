@@ -58,7 +58,7 @@
           <div id="searchSectionAdditionalFiltersContainer">
             <!-- search filters -->
             <label  for="jobTitle">Job Titles:</label>
-            <input style="width: calc(100% - 20px);" list="jobTitleData" name="jobTitle" >
+            <input id="jobTitleInput" style="width: calc(100% - 20px);" list="jobTitleData" name="jobTitle" >
             <datalist id="jobTitleData" required>
                 <?php
                     $jobTitlesQuery = $indexPDO->query("SELECT DISTINCT jobtitles FROM SettingsOptions WHERE jobtitles IS NOT NULL");
