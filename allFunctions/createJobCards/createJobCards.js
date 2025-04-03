@@ -7,7 +7,7 @@
 // parm 4 @ container - element - the container that will hold the job cards
 function createJobCardApplicant(status, jobTitle, jobDescription, container){
   
-  const box = document.createElement("div");
+  const box = document.createElement("a");
   box.classList.add("createJobCardApplicant");
 
   const statusDiv = document.createElement("div");
@@ -43,7 +43,7 @@ function createJobCardApplicant(status, jobTitle, jobDescription, container){
 // parm 1 @ status - string - open,closed
 
 function createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription, container){
-  const box = document.createElement("div");
+  const box = document.createElement("a");
   box.classList.add("createJobCardEmployer");
 
   const statusDiv = document.createElement("div");
@@ -84,7 +84,7 @@ function createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription
 // creates generic job card
 function createJobCardGenericCard(jobTitle, companyName, jobDescription, container){
 
-  const box = document.createElement("div");
+  const box = document.createElement("a");
   box.classList.add("createJobCardGenericCard");
 
   const titleDiv = document.createElement("div");
@@ -138,6 +138,14 @@ function createJobCardAddMoreCard(container, link){
   container.appendChild(box);
 }
 
+function noFoundQueryResponse(container){
+  const box = document.createElement("div");
+  box.classList.add("noFoundQueryReponseJobCard");
+  box.innerHTML = "Sorry Your Query Had Zero Results";
+
+  container.appendChild(box);
+}
+
 // parm 1 @ container - string - the id of the container that will hold the job cards
 // parm 2 @ quryCondition - object - uses key to check if value is equle to it {"owner": "bob", "status": "accepted", "jobTitle": "Computer Science"} should also be a { "owner" : null} option which will just pull the current user through session
 function createJobCardInitialize(container, quryCondition) {
@@ -158,18 +166,25 @@ function createJobCardInitialize(container, quryCondition) {
 
           response.forEach(job => {
               // Destructure job properties
-              let { type, status, jobTitle, jobDescription, applicantsCount, companyName } = job;
+              let { type, postId, status, jobTitle, jobDescription, applicantsCount, companyName } = job;
               console.log(type, status, jobTitle, jobDescription, applicantsCount, companyName );
               // Determine which job card function to call
               if (type === "applicant") {
-                  createJobCardApplicant(status, jobTitle, jobDescription, containerElement);
+                  if(jobTitle != undefined){
+                    createJobCardApplicant(status, jobTitle, jobDescription, containerElement);
+                  }
                   createJobCardAddMoreCard(containerElement, "../Search/");
-
               } else if (type === "employer") {
-                  createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription, containerElement);
+                  if(jobTitle != undefined){
+                    createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription, containerElement);
+                  }
                   createJobCardAddMoreCard(containerElement, "../Create/");
               } else if (type === "generic") {
-                  createJobCardGenericCard(jobTitle, companyName, jobDescription, containerElement);
+                  if(jobTitle != undefined){
+                    createJobCardGenericCard(jobTitle, companyName, jobDescription, containerElement);
+                  }
+                  noFoundQueryResponse(containerElement);
+
               }else if(type === "admin"){
                   //createJobCardAdmin();
               }

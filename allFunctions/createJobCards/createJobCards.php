@@ -25,7 +25,7 @@
 
     $myPDO = connectedPDO();
 
-    $userType = "general";
+    $userType = "generic";
 
     $conditions = [];
     $params = [];
@@ -65,8 +65,9 @@
     // Determine the type of jobs to fetch based on user type
     if ($userType === "student") {
         $sql = "SELECT 
+                    JobPosts.id AS postId,
                     Applications.status AS status,
-                    JobPosts.posttitle AS jobTitle,
+                    JobPosts.posttitle AS postTitle,
                     JobPosts.description AS jobDescription
                 FROM Applications
                 INNER JOIN JobPosts ON Applications.jobpostid = JobPosts.id
@@ -90,6 +91,7 @@
         }
     } elseif ($userType === "employer") {
         $sql = "SELECT 
+                    JobPosts.id AS postId,
                     JobPosts.poststatus AS status,
                     JobPosts.posttitle AS jobTitle,
                     JobPosts.description AS jobDescription,
@@ -101,7 +103,6 @@
             $sql .= " AND " . implode(" AND ", $conditions);
         }
 
-        //$params[] = $currentUserId;
 
         $stmt = $myPDO->prepare($sql);
         $stmt->execute($params);
@@ -118,6 +119,7 @@
     } elseif($userType === "admin"){
 
         $sql = "SELECT 
+                    JobPosts.id AS postId,
                     JobPosts.posttitle AS jobTitle,
                     Users.username AS companyName,
                     JobPosts.description AS jobDescription
@@ -162,4 +164,4 @@
     }
 
     // Return the fetched jobs as JSON
-   echo json_encode($jobs) == "[]"? json_encode( array("type" => $userType)) : json_encode($jobs) ;
+   echo json_encode($jobs) == "[]"? json_encode( array((Object) array("type" => $userType))) : json_encode($jobs) ;
