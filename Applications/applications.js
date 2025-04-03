@@ -11,6 +11,10 @@ function processApplication(button) {
     .then(data => {
         form.nextElementSibling.innerHTML = data; // Show response message
         form.reset(); // Clear form after submission
+
+        setTimeout(function() {
+            window.location.href = '../Home/index.php'; // Redirect to home page
+        }, 3000); // 3-second delay
     })
     .catch(error => console.error("Error:", error));
 }

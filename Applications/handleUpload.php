@@ -58,13 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // ✅ Success message & redirect (after 3 seconds)
             echo "✅ Application submitted successfully! Redirecting to home page...";
-            echo "<script>
-                function redirect() { 
-                    window.location.href = '../Home/index.php'; 
-                    console.log('Redirecting to home...');
-                }
-                setTimeout(redirect, 3000); // 3-second delay
-            </script>";
             exit;
         } catch (PDOException $e) {
             echo "❌ Database Error: " . $e->getMessage();
