@@ -39,13 +39,14 @@ a:hover {
 .status.accepted { background-color: green; color: white; }
 .status.rejected { background-color: red; color: white; }
 
+
 /* Card-like box for job application */
 .application-box {
     display: flex;
-    flex-wrap: wrap;
     gap: 15px;
     margin-top: 20px;
 }
+
 
 .application-card {
     width: min(100cqw, 300px);
@@ -59,14 +60,17 @@ a:hover {
     transition: box-shadow 0.3s ease;
 }
 
+
 .application-card:hover {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
+
 
 .job-title {
     font-size: 18px;
     font-weight: bold;
 }
+
 
 .job-description {
     font-size: 14px;
@@ -74,11 +78,13 @@ a:hover {
     margin-top: 10px;
 }
 
+
 .action-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
 }
+
 
 .action-buttons a {
     padding: 10px;
@@ -89,6 +95,29 @@ a:hover {
     font-size: 14px;
 }
 
+
 .action-buttons a:hover {
     background-color: #2980b9;
 }
+
+
+.optionBtns {
+    padding: 10px 10px 10px 10px;
+    border-radius: 6px;
+    font-size: 15px;
+    border: none;
+    font-weight: 500;
+    color: #000000;
+    cursor: pointer;
+}
+
+
+#acceptBtn {
+    background-color: green;
+}
+
+
+#denyBtn {
+    background-color: red;
+}
+

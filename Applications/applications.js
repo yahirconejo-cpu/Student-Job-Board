@@ -1,32 +1,36 @@
-function processResumes() {
-    // Get the file input and form data
-    const fileInput = document.getElementById('resume');  // Make sure the input has id="resume"
-    const jobPostId = document.getElementById('jobpostid').value;  // Make sure there's a hidden or visible input with id="jobpostid"
+function processApplication(button) {
+    let form = button.closest(".applyForm");
+    let formData = new FormData(form);
 
-    // Check if a file is selected
-    if (fileInput.files.length === 0) {
-        alert('❌ Please select a resume to upload.');
-        return;
-    }
 
-    // Create a FormData object to hold the file and other data
-    const formData = new FormData();
-    formData.append('resume', fileInput.files[0]);  // Append the file
-    formData.append('jobpostid', jobPostId);  // Append the jobpostid
-
-    // Create a new XMLHttpRequest
-    let xhr = new XMLHttpRequest();
-
-    // Set up the AJAX request
-    xhr.open('POST', 'handleUpload.php', true);
-    // Set up an event listener for when the request is complete
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            // Success: Display the response (success message or error)
-            document.getElementById('response').innerHTML = xhr.responseText;
-        }
-    };
-    console.log(xhr.responseText);
-    // Send the form data with the resume and job post ID
-    xhr.send(formData);
+    fetch("handleUpload.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        form.nextElementSibling.innerHTML = data; // Show response message
+        form.reset(); // Clear form after submission
+    })
+    .catch(error => console.error("Error:", error));
 }
+
+
+function updateStatus(applicationId, newStatus) {
+    const formData = new FormData();
+    formData.append("applicationId", applicationId);
+    formData.append("newStatus", newStatus);
+
+
+    fetch("updateStatus.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data); // Show feedback
+        location.reload(); // Refresh the page to reflect changes
+    })
+    .catch(error => console.error("Error:", error));
+}
+
