@@ -8,7 +8,7 @@
 function createJobCardApplicant(postId, status, jobTitle, jobDescription, container){
   
   const box = document.createElement("a");
-  box.href = "../Applications/postid=" + postId;
+  box.href = "../Applications/index.php?postid=" + postId;
   box.classList.add("createJobCardApplicant");
 
   const statusDiv = document.createElement("div");
@@ -45,7 +45,7 @@ function createJobCardApplicant(postId, status, jobTitle, jobDescription, contai
 
 function createJobCardEmployer(postId, status, jobTitle, applicantsCount, jobDescription, container){
   const box = document.createElement("a");
-  box.href = "../Applications/postid=" + postId;
+  box.href = "../Applications/index.php?postid=" + postId;
   box.classList.add("createJobCardEmployer");
 
   const statusDiv = document.createElement("div");
@@ -87,7 +87,7 @@ function createJobCardEmployer(postId, status, jobTitle, applicantsCount, jobDes
 function createJobCardGenericCard(postId, jobTitle, companyName, jobDescription, container){
 
   const box = document.createElement("a");
-  box.href = "../Applications/postid=" + postId;
+  box.href = "../Applications/index.php?postid=" + postId;
   box.classList.add("createJobCardGenericCard");
 
   const titleDiv = document.createElement("div");
@@ -123,7 +123,7 @@ function createJobCardGenericCard(postId, jobTitle, companyName, jobDescription,
 
 function createJobCardAdmin(postId, jobTitle, companyName, jobDescription, container) {
   const box = document.createElement("a");
-  box.href = "../Applications/postid=" + postId;
+  box.href = "../Applications/index.php?postid=" + postId;
   box.classList.add("createJobCardAdmin");
 
   const titleDiv = document.createElement("div");
