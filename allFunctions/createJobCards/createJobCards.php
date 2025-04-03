@@ -37,7 +37,7 @@
         // only run if the user put owner = null 
         if (array_key_exists( "owner", $queryConditions) && empty($queryConditions->owner)) {
             // Handle the case when 'owner' exists and is null
-            $currentUserId = 3;
+            $currentUserId = 1;
             $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
             $userTypeQuery->execute([
                 $currentUserId

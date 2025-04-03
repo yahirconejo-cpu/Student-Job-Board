@@ -18,7 +18,6 @@
 }
 
 /* status  */
-
 .createJobCardStatus {
   position: relative;
   width: fit-content;
@@ -26,7 +25,7 @@
   font-size: 12px;
   border-radius: 15px;
   padding: 8px 8px;
-  margin: 15px 15px;
+  margin: 15px 15px 0px;
 }
 
 .createJobCardApplicantStatus_applied {
@@ -75,8 +74,18 @@
   color: white;
 }
 
+.createJobCardEmployerStatus_pending {
+  background-color: #313030;
+  color: white;
+}
+
+.createJobCardEmployerStatus_denied {
+  background-color: #b00000;
+  color: white;
+}
+
 .createJobCardEmployerStatus_closed {
-   background-color: #313030;
+   background-color: #e6b103;
    color: white;
 }
 
