@@ -1,8 +1,10 @@
 <?php
 include_once("../allFunctions/connectPDO.php");
 
+
 $pdo = connectedPDO();
-$currentUserId = 1; // For testing purposes
+
+$currentUserId = 2; // For testing purposes
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['resume']) && $_FILES['resume']['error'] === UPLOAD_ERR_OK) {
@@ -30,11 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($fileTmpPath, $destPath);
         
         $jobpostid = $_POST['jobpostid']; // Get jobpostid from the form
-        $stmt = $pdo->prepare("INSERT INTO Applications (userid, jobpostid, resumes) VALUES (:userid, :jobpostid, :resumes)");
+        $stmt = $pdo->prepare("INSERT INTO Applications (userid, jobpostid, resumes, status) VALUES (:userid, :jobpostid, :resumes, :status)");
         $stmt->execute([
             ':userid' => $currentUserId,
             ':jobpostid' => $jobpostid,
-            ':resumes' => $newFileName
+            ':resumes' => $newFileName,
+            ':status' => 'pending'
         ]);
 
         echo "✅ Application submitted successfully!<br>📄 File saved as: <a href='$destPath' target='_blank'>$newFileName</a>";

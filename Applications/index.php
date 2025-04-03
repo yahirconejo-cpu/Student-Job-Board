@@ -1,27 +1,25 @@
 <?php
-//session_start();
 include_once("../allFunctions/connectPDO.php");
 
-// if (!isset($_SESSION['userid'])) {
-//     die("Error: You must be logged in to view applications.");
-// }
-
 $pdo = connectedPDO();
-//$currentUserId = $_SESSION['userid'];
-//$userType = $_SESSION['userType'] ?? 'student'; // Defaults to 'student' if undefined
-$currentUserId = 1;
-$userType = 'student';
-// Query: Students see their applications, employers see all with applicant details
-$query = ($userType === 'employer') 
-    ? "SELECT * FROM Applications ORDER BY id DESC"
-    : "SELECT * FROM Applications WHERE userid = :userid ORDER BY id DESC";
+$currentUserId = 2; // Test ID
+$userType = 'employer'; // Change to 'employer' for employer view
 
-$stmt = $pdo->prepare($query);
-if ($userType !== 'employer') {
-    $stmt->execute([':userid' => $currentUserId]);
-} else {
-    $stmt->execute();
+//$jobpostid = $_GET['postid'] ?? null;
+$jobpostid = 2;
+
+// Fetch the job post details
+$stmtJobs = $pdo->prepare("SELECT * FROM JobPosts WHERE id = :postid"); // Ensure column name is correct
+$stmtJobs->execute([':postid' => $jobpostid]);
+$job = $stmtJobs->fetch(PDO::FETCH_ASSOC);
+
+if (!$job) {
+    die("❌ Error: Job post not found.");
 }
+
+// Fetch job applications related to this job post (for employer view)
+$stmtApplications = $pdo->prepare("SELECT * FROM Applications WHERE jobpostid = :postid");
+$stmtApplications->execute([':postid' => $jobpostid]);
 ?>
 
 <!DOCTYPE html>
@@ -31,39 +29,50 @@ if ($userType !== 'employer') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applications</title>
     <link rel="stylesheet" href="applications.css">
-
-    <script></script>
 </head>
 <body>
 
-<h2><?= $userType === 'employer' ? "All Job Applications" : "Your Job Applications" ?></h2>
-
-<?php if ($userType === 'student'): ?>
-    <h3>Upload Your Resume (PDF only)</h3>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <label for="resume">Choose your file (PDF, PNG, JPG):</label>
-        <input type="file" id="resume" name="resume" required>
-        <!-- <input type="hidden" id="jobpostid" value="<?php //echo $_GET['jobpostid']?>"> -->
-        <input type="hidden" id="jobpostid" value="12345">
-        <button type="button" onclick="processResumes()">Upload</button>
-    </form>
-<div id="response"></div>
-<?php endif; ?>
+<h2><?= $userType == 'employer' ? "All Job Applications" : "Submit your application!" ?></h2>
 
 <div class="application-box">
-    <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+    <!-- Student Section: Display Job Post Details & Application Form -->
+    <?php if ($userType == 'student'): ?>
         <div class="application-card">
-            <div class="job-title">Job Post ID: <?= $row['jobpostid'] ?></div>
-            <div class="job-description">
-                <?= $userType === 'employer' ? "<p>Applicant: {$row['applicant_name']}</p>" : "" ?>
-                <p>Status: <span class="status <?= strtolower($row['status']) ?>"><?= ucfirst($row['status']) ?></span></p>
-            </div>
-            <div class="action-buttons">
-                <a href="../Data/Uploads/<?= htmlspecialchars($row['resumes']) ?>" target="_blank">Download Resume</a>
-            </div>
+            <p><strong>Type:</strong> <?= htmlspecialchars($job['jobtype']) ?></p>
+            <p><strong>Days:</strong> <?= htmlspecialchars($job['jobdays']) ?></p>
+            <p><strong>Shifts:</strong> <?= htmlspecialchars($job['shifts']) ?></p>
+            <p><strong>Pay:</strong> $<?= htmlspecialchars(number_format($job['pay'], 2)) ?>/hr</p>
+            <p><strong>Location:</strong> <?= htmlspecialchars($job['address'] ?? 'N/A') ?></p>
+            <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($job['description'])) ?></p>
+
+            <h3>Submit Your Application</h3>
+            <form class="applyForm" enctype="multipart/form-data">
+                <input type="hidden" name="jobpostid" value="<?= $jobpostid ?>">
+                <label for="resume">Upload Resume (PDF, PNG, JPG):</label>
+                <input type="file" name="resume" required>
+                <label for="motivation">Why do you want this job? (200 words max)</label>
+                <textarea name="motivation" rows="4" maxlength="200" required></textarea>
+                <button type="button" onclick="processApplication(this)">Apply</button>
+            </form>
+            <div class="response"></div>
         </div>
-    <?php endwhile; ?>
+    <?php endif; ?>
+
+    <!-- Employer Section: Loop through Applications -->
+    <?php if ($userType == 'employer'): ?>
+        <?php while ($row = $stmtApplications->fetch(PDO::FETCH_ASSOC)): ?>
+            <div class="application-card">
+                <p><strong>Status:</strong> <span class="status <?= strtolower($row['status']) ?>"><?= ucfirst($row['status']) ?></span></p>
+                <a href="../Data/Uploads/<?= htmlspecialchars($row['resumes']) ?>" target="_blank">Download Resume</a>
+                <div id="optionBtnsContainer">
+                    <button id="acceptBtn" class="optionBtns" onclick="updateStatus(<?= $row['id'] ?>, 'accepted')">Accept</button>
+                    <button id="denyBtn" class="optionBtns" onclick="updateStatus(<?= $row['id'] ?>, 'denied')">Deny</button>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    <?php endif; ?>
 </div>
+
 <script src="applications.js"></script>
 
 </body>
