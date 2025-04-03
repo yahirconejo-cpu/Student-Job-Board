@@ -42,7 +42,6 @@
       <div id="sideBarLeftBackground"></div>
       <button name="applications" type="button" class="leftSideBarItems selected">Applications</button>
       <button name="settings" type="button" class="leftSideBarItems">Settings</button>
-      <button name="contact" type="button" class="leftSideBarItems">Contacts</button>
       <button name="tutorials" type="button" class="leftSideBarItems">Tutorials</button>
     </div>
     
