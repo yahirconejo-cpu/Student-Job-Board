@@ -38,6 +38,7 @@ $stmtApplications->execute([':postid' => $jobpostid]);
     <!-- Student Section: Display Job Post Details & Application Form -->
     <?php if ($userType == 'student'): ?>
         <div class="application-card">
+            <p><strong>Title:</strong> <?= htmlspecialchars($job['posttitle']) ?></p>
             <p><strong>Type:</strong> <?= htmlspecialchars($job['jobtype']) ?></p>
             <p><strong>Days:</strong> <?= htmlspecialchars($job['jobdays']) ?></p>
             <p><strong>Shifts:</strong> <?= htmlspecialchars($job['shifts']) ?></p>
@@ -45,7 +46,6 @@ $stmtApplications->execute([':postid' => $jobpostid]);
             <p><strong>Location:</strong> <?= htmlspecialchars($job['address'] ?? 'N/A') ?></p>
             <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($job['description'])) ?></p>
 
-            <h3>Submit Your Application</h3>
             <form class="applyForm" enctype="multipart/form-data">
                 <input type="hidden" name="jobpostid" value="<?= $jobpostid ?>">
                 <label for="resume">Upload Resume (PDF, PNG, JPG):</label>
@@ -61,7 +61,8 @@ $stmtApplications->execute([':postid' => $jobpostid]);
     <!-- Employer Section: Loop through Applications -->
     <?php if ($userType == 'employer'): ?>
         <?php while ($row = $stmtApplications->fetch(PDO::FETCH_ASSOC)): ?>
-            <div class="application-card">
+            <div class="application-card">                
+                <p><strong>Applicant</strong> <span class="status"></span></p>
                 <p><strong>Status:</strong> <span class="status <?= strtolower($row['status']) ?>"><?= ucfirst($row['status']) ?></span></p>
                 <a href="../Data/Uploads/<?= htmlspecialchars($row['resumes']) ?>" target="_blank">Download Resume</a>
                 <div id="optionBtnsContainer">

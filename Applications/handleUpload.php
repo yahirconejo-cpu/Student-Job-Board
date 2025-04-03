@@ -4,7 +4,7 @@ include_once("../allFunctions/connectPDO.php");
 
 $pdo = connectedPDO();
 
-$currentUserId = 2; // For testing purposes
+$currentUserId = 1; // For testing purposes
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['resume']) && $_FILES['resume']['error'] === UPLOAD_ERR_OK) {
