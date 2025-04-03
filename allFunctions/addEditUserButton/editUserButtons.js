@@ -356,7 +356,6 @@ function loadDataForEditUserButtons(allData, chosenData, optionName, container, 
         }
 
         if(allData == "auto"){
-           
             let getPosOptions = new XMLHttpRequest();
             getPosOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
             getPosOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -364,7 +363,6 @@ function loadDataForEditUserButtons(allData, chosenData, optionName, container, 
             getPosOptions.onreadystatechange = function () {
                 if (getPosOptions.readyState === 4 && getPosOptions.status === 200) {
                     userPreferences[optionAll] = JSON.parse(getPosOptions.responseText);
-                  
                 }
             };
             getPosOptions.send(`table=SettingsOptions&column=${optionAll}`);
@@ -388,9 +386,12 @@ function loadDataForEditUserButtons(allData, chosenData, optionName, container, 
                 if (getPosOptions.readyState === 4 && getPosOptions.status === 200) {
                     console.log(getPosOptions.responseText);
                     userPreferences[nameChosen] = JSON.parse(getPosOptions.responseText);
+                    if(userPreferences[nameChosen][0] != undefined){
+                        updateChosenOptions(userPreferences[nameChosen][0], userPreferences[nameChosen], true, container );
+                    }
                 }
             };
-            getPosOptions.send(`table=SettingsOptions&column=${nameChosen}`);
+            getPosOptions.send(`table=Settings&column=${nameChosen}`);
 
         }else{
             userPreferences[nameChosen] = chosenData;
@@ -400,9 +401,6 @@ function loadDataForEditUserButtons(allData, chosenData, optionName, container, 
         chosenData = [];
     }
 
-    // console.log(allData);
-    // console.log(chosenData);
-    // allData.forEach( option => updateChosenOptions(option, chosenData, true));
     
 }
 

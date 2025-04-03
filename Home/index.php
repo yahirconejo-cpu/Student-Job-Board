@@ -129,13 +129,13 @@
         <!-- Settings container -->
         <div id="settingsContainer" class="rightSideBarSections">
           <script>
-            createSettingSelectElements("Add Email", "email", "email", "inputBox" , false ,"PreferencePopup", "Set your email!", ["Email..."]);
+            createSettingSelectElements("Add Email", "email", "email", "inputBox" , false ,"PreferencePopup", "Set your email!", ["Email..."], "auto");
             <?php
               if ($userType == "student") {
                 echo '
-                  createSettingSelectElements("Add Job Titles", "jobTitles", "preferedjobtitles", "searchList", true ,"PreferencePopup", null);
-                  createSettingSelectElements("Add Job Types", "jobTypes", "preferedjobtypes", "checkbox", false ,"PreferencePopup", "Pick Prefered Job Types");
-                  createSettingSelectElements("Add Prefered Days", "jobDays", "preferedjobdays", "checkbox" , false ,"PreferencePopup", "Pick Prefered Days");
+                  createSettingSelectElements("Add Job Titles", "jobTitles", "preferedjobtitles", "searchList", true ,"PreferencePopup", null , null ,"auto");
+                  createSettingSelectElements("Add Job Types", "jobTypes", "preferedjobtypes", "checkbox", false ,"PreferencePopup", "Pick Prefered Job Types", null, "auto");
+                  createSettingSelectElements("Add Prefered Days", "jobDays", "preferedjobdays", "checkbox" , false ,"PreferencePopup", "Pick Prefered Days", null , "auto");
                 ';
               }
             ?>

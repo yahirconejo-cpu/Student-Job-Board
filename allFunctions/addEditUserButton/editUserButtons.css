@@ -117,6 +117,7 @@
 
 .editUserButtonsContainer > input{
   margin: 5px 5px;
+  color: black;
 } 
 
 .editUserButtonsContainer div:hover {
@@ -136,7 +137,7 @@
 
 .editUserButtonsContainer > input:not(.selectededitUserButtonsOptions){
   background-color: #f0f0f0;
-  color: gray;
+  color: rgb(0, 0, 0);
 }
 
 .editUserButtonsContainerCloseBtn {
