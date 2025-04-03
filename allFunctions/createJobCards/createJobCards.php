@@ -84,20 +84,23 @@
 
         if(count($jobs) > 0){
             foreach ($jobs as &$job) {
-                $job['type'] = "applicant";
+                $job['type'] = "student";
             }
         }else{
-            $job['type'] = "applicant";
+            $job['type'] = "student";
         }
     } elseif ($userType === "employer") {
         $sql = "SELECT 
-                    JobPosts.id AS postId,
-                    JobPosts.poststatus AS status,
-                    JobPosts.posttitle AS jobTitle,
-                    JobPosts.description AS jobDescription,
-                    (SELECT COUNT(*) FROM Applications WHERE Applications.jobpostid = JobPosts.id) AS applicantsCount
-                FROM JobPosts
-                WHERE JobPosts.userid = ?";
+            JobPosts.id AS postId,
+            CASE 
+                WHEN JobPosts.adminstatus = 'accepted' THEN JobPosts.poststatus 
+                ELSE JobPosts.adminstatus 
+            END AS status,
+            JobPosts.posttitle AS jobTitle,
+            JobPosts.description AS jobDescription,
+            (SELECT COUNT(*) FROM Applications WHERE Applications.jobpostid = JobPosts.id) AS applicantsCount
+            FROM JobPosts 
+            WHERE JobPosts.userid = ?";
 
         if (!empty($conditions)) {
             $sql .= " AND " . implode(" AND ", $conditions);
@@ -120,14 +123,13 @@
 
         $sql = "SELECT 
                     JobPosts.id AS postId,
+                    JobPosts.adminstatus AS status,
                     JobPosts.posttitle AS jobTitle,
-                    Users.username AS companyName,
                     JobPosts.description AS jobDescription
-                FROM JobPosts
-                INNER JOIN Users ON JobPosts.userid = Users.id";
+                FROM JobPosts";
 
         if (!empty($conditions)) {
-            $sql .= "WHERE  " . implode(" AND ", $conditions);
+            $sql .= " WHERE  " . implode(" AND ", $conditions);
         }
 
         $stmt = $myPDO->prepare($sql);
@@ -142,12 +144,16 @@
     }else {
         // Generic job posts for users browsing jobs
         $sql = "SELECT 
-                    JobPosts.posttitle AS jobTitle,
-                    Users.username AS companyName,
-                    JobPosts.description AS jobDescription
-                FROM JobPosts
-                INNER JOIN Users ON JobPosts.userid = Users.id
-                WHERE JobPosts.adminstatus = 'accepted' AND JobPosts.poststatus = 'accepting'";
+            JobPosts.posttitle AS jobTitle,
+            Users.username AS companyName,
+            JobPosts.description AS jobDescription
+        FROM JobPosts
+        INNER JOIN Users ON JobPosts.userid = Users.id
+        LEFT JOIN Applications ON JobPosts.id = Applications.jobpostid 
+                            AND Applications.userid = ? 
+        WHERE JobPosts.adminstatus = 'accepted' 
+        AND JobPosts.poststatus = 'accepting'
+        AND Applications.id IS NULL";
 
         if (!empty($conditions)) {
             $sql .= " AND " . implode(" AND ", $conditions);

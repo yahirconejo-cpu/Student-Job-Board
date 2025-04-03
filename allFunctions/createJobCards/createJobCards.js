@@ -5,9 +5,10 @@
 // parm 2 @ jobTitle - string - the job title of the job
 // parm 3 @ jobDescription - string - the job description of the job
 // parm 4 @ container - element - the container that will hold the job cards
-function createJobCardApplicant(status, jobTitle, jobDescription, container){
+function createJobCardApplicant(postId, status, jobTitle, jobDescription, container){
   
   const box = document.createElement("a");
+  box.href = "../Applications/postid=" + postId;
   box.classList.add("createJobCardApplicant");
 
   const statusDiv = document.createElement("div");
@@ -42,8 +43,9 @@ function createJobCardApplicant(status, jobTitle, jobDescription, container){
 // creates a job card for the employers that displays the accepted status and applicant status
 // parm 1 @ status - string - open,closed
 
-function createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription, container){
+function createJobCardEmployer(postId, status, jobTitle, applicantsCount, jobDescription, container){
   const box = document.createElement("a");
+  box.href = "../Applications/postid=" + postId;
   box.classList.add("createJobCardEmployer");
 
   const statusDiv = document.createElement("div");
@@ -82,9 +84,10 @@ function createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription
 }
 
 // creates generic job card
-function createJobCardGenericCard(jobTitle, companyName, jobDescription, container){
+function createJobCardGenericCard(postId, jobTitle, companyName, jobDescription, container){
 
   const box = document.createElement("a");
+  box.href = "../Applications/postid=" + postId;
   box.classList.add("createJobCardGenericCard");
 
   const titleDiv = document.createElement("div");
@@ -118,8 +121,45 @@ function createJobCardGenericCard(jobTitle, companyName, jobDescription, contain
   container.appendChild(box);
 }
 
-function createJobCardAdmin(){
+function createJobCardAdmin(postId, jobTitle, companyName, jobDescription, container) {
+  const box = document.createElement("a");
+  box.href = "../Applications/postid=" + postId;
+  box.classList.add("createJobCardAdmin");
 
+  const titleDiv = document.createElement("div");
+  titleDiv.classList.add("createJobCardJobTitle");
+  titleDiv.innerHTML = jobTitle;
+  box.appendChild(titleDiv);
+
+  const companyDiv = document.createElement("div");
+  companyDiv.classList.add("createJobCardCompany");
+  companyDiv.innerHTML = `Company: ${companyName}`;
+  box.appendChild(companyDiv);
+
+  const descDiv = document.createElement("div");
+  descDiv.classList.add("createJobCardJobDescription");
+  descDiv.innerHTML = jobDescription;
+  box.appendChild(descDiv);
+
+  // Accept button
+  const acceptBtn = document.createElement("button");
+  acceptBtn.classList.add("createJobCardAcceptButton");
+  acceptBtn.innerHTML = "Accept";
+  acceptBtn.onclick = function() {
+      updateJobStatus(postId, "accepted", box);
+  };
+  box.appendChild(acceptBtn);
+
+  // Deny button
+  const denyBtn = document.createElement("button");
+  denyBtn.classList.add("createJobCardDenyButton");
+  denyBtn.innerHTML = "Deny";
+  denyBtn.onclick = function() {
+      updateJobStatus(postId, "denied", box);
+  };
+  box.appendChild(denyBtn);
+
+  container.appendChild(box);
 }
 
 // adds a add more job card
@@ -138,10 +178,10 @@ function createJobCardAddMoreCard(container, link){
   container.appendChild(box);
 }
 
-function noFoundQueryResponse(container){
+function noFoundQueryResponse(container, text){
   const box = document.createElement("div");
   box.classList.add("noFoundQueryReponseJobCard");
-  box.innerHTML = "Sorry Your Query Had Zero Results";
+  box.innerHTML = text;
 
   container.appendChild(box);
 }
@@ -163,32 +203,45 @@ function createJobCardInitialize(container, quryCondition) {
 
           let containerElement = document.getElementById(container);
           //containerElement.innerHTML = ""; // Clear existing job cards
+          
+          var lastType = null; 
 
           response.forEach(job => {
               // Destructure job properties
-              let { type, postId, status, jobTitle, jobDescription, applicantsCount, companyName } = job;
+              var { type, postId, status, jobTitle, jobDescription, applicantsCount, companyName } = job;
               console.log(type, status, jobTitle, jobDescription, applicantsCount, companyName );
+
+              lastType = type; 
+              
               // Determine which job card function to call
-              if (type === "applicant") {
+              if (type === "student") {
                   if(jobTitle != undefined){
-                    createJobCardApplicant(status, jobTitle, jobDescription, containerElement);
+                    createJobCardApplicant(postId, status, jobTitle, jobDescription, containerElement);
                   }
-                  createJobCardAddMoreCard(containerElement, "../Search/");
               } else if (type === "employer") {
                   if(jobTitle != undefined){
-                    createJobCardEmployer(status, jobTitle, applicantsCount, jobDescription, containerElement);
+                    createJobCardEmployer(postId, status, jobTitle, applicantsCount, jobDescription, containerElement);
                   }
-                  createJobCardAddMoreCard(containerElement, "../Create/");
               } else if (type === "generic") {
                   if(jobTitle != undefined){
-                    createJobCardGenericCard(jobTitle, companyName, jobDescription, containerElement);
+                    createJobCardGenericCard(postId, jobTitle, companyName, jobDescription, containerElement);
                   }
-                  noFoundQueryResponse(containerElement);
-
               }else if(type === "admin"){
-                  //createJobCardAdmin();
+                  createJobCardAdmin(postId, jobTitle, companyName, jobDescription, container)
               }
           });
+
+          if (lastType === "student") {
+              createJobCardAddMoreCard(containerElement, "../Search/");
+          } else if (lastType === "employer") {
+              createJobCardAddMoreCard(containerElement, "../Create/");
+          } else if (lastType === "generic") {
+              noFoundQueryResponse(containerElement, "Sorry Your Query Had Zero Results");
+          }else if(lastType === "admin"){
+              noFoundQueryResponse(containerElement, "No New Jobs Made");
+          }
+
+          
 
       }
   };
