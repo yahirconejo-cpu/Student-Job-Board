@@ -483,7 +483,9 @@ function userSignIn(){
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let response = JSON.parse(xhr.responseText);
-                alert(response.message);
+                if(!response.success){
+                    alert(xhr.response);
+                }
                 if(response.success){
                     if(response.usertype == "admin"){
                         window.location.href = "./Admin/";

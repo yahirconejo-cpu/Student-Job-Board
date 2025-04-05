@@ -169,8 +169,27 @@
     border-radius: 2px;
 }
 
-
-
+.logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c0392b;
+    transform: scale(1.03);
+  }
+  
+  .logout-btn:active {
+    transform: scale(0.97);
+    background-color: #a93226;
+  }
+  
 @media (max-width: 650px){
     #largeNav{
         display:none;

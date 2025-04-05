@@ -117,6 +117,18 @@ function createJobPost(){
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             alert(xhr.responseText);
+            document.getElementById("title").value = "";
+            document.getElementById("description").value = "";
+            document.querySelector("input[name='jobTitle']").value = "";
+            document.getElementById("jobType").value = "";
+            
+            let days = document.querySelectorAll("input[name='days']");
+            days.forEach( day => {
+                days.checked = false;
+            });
+
+            document.getElementById("pay").value = "";
+            document.getElementById("address").value = "";
         }
     };
 

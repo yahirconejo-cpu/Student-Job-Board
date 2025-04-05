@@ -13,7 +13,7 @@ function processApplication(button) {
         form.reset(); // Clear form after submission
 
         setTimeout(function() {
-            window.location.href = '../Home/index.php'; // Redirect to home page
+            window.location.href = document.referrer;
         }, 3000); // 3-second delay
     })
     .catch(error => console.error("Error:", error));
@@ -37,4 +37,3 @@ function updateStatus(applicationId, newStatus) {
     })
     .catch(error => console.error("Error:", error));
 }
-

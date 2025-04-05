@@ -1,4 +1,8 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    
     require_once('../connectPDO.php'); 
 
     // Check if request contains query parameters
@@ -9,14 +13,14 @@
 
     // Get the current logged-in user
 
-    // if (session_status() === PHP_SESSION_NONE) {
-    //     session_start();
-    // }
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
-    // if (!isset($_SESSION['userid'])) {
-    //     echo json_encode(["error" => "User not authenticated."]);
-    //     exit;
-    // }
+    if (!isset($_SESSION['userid'])) {
+        echo json_encode(["error" => "User not authenticated."]);
+        exit;
+    }
 
     $queryConditions =  json_decode($_POST['cardQuery'], true);
     
@@ -37,7 +41,7 @@
         // only run if the user put owner = null 
         if (array_key_exists( "owner", $queryConditions) && empty($queryConditions->owner)) {
             // Handle the case when 'owner' exists and is null
-            $currentUserId = 1;
+            $currentUserId = $_SESSION['userid'];
             $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
             $userTypeQuery->execute([
                 $currentUserId
@@ -64,7 +68,7 @@
         $sql = "SELECT 
                     JobPosts.id AS postId,
                     Applications.status AS status,
-                    JobPosts.posttitle AS postTitle,
+                    JobPosts.posttitle AS jobTitle,
                     JobPosts.description AS jobDescription
                 FROM Applications
                 INNER JOIN JobPosts ON Applications.jobpostid = JobPosts.id
@@ -80,6 +84,7 @@
         $stmt->execute($params);
         
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
         if(count($jobs) > 0){
             foreach ($jobs as &$job) {

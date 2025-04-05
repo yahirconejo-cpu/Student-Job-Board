@@ -276,7 +276,6 @@ function inputOptions(nameChosen, type, ifSearchBar, popupName, popupHeader, use
     
             getChosenOptions.onreadystatechange = function () {
                 if (getChosenOptions.readyState === 4 && getChosenOptions.status === 200) {
-                    console.log(getChosenOptions.responseText);
                     userPreferences[nameChosen] = JSON.parse(getChosenOptions.responseText);
                     resolve();  // Resolve the promise once the request completes
                 } else if (getChosenOptions.readyState === 4) {
@@ -377,14 +376,12 @@ function loadDataForEditUserButtons(allData, chosenData, optionName, container, 
     if (chosenData != null) {
         var nameChosen = optionName ;
         if(chosenData == "auto"){
-
             let getPosOptions = new XMLHttpRequest();
             getPosOptions.open("POST", "../allFunctions/addEditUserButton/editUserButtons.php", true);
             getPosOptions.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     
             getPosOptions.onreadystatechange = function () {
                 if (getPosOptions.readyState === 4 && getPosOptions.status === 200) {
-                    console.log(getPosOptions.responseText);
                     userPreferences[nameChosen] = JSON.parse(getPosOptions.responseText);
                     if(userPreferences[nameChosen][0] != undefined){
                         updateChosenOptions(userPreferences[nameChosen][0], userPreferences[nameChosen], true, container );

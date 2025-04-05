@@ -1,3 +1,15 @@
+<?php
+  include("../allFunctions/createNavBar/createNavBar.php");
+  include_once("../allFunctions/checks/checkLogin.php");
+  include_once("../allFunctions/checks/fetchUserInfo.php");
+
+  $userType = returnUserType();
+
+  if($userType != "admin") {
+    header("Location: ../index.php");
+    die();
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,14 +20,17 @@
   <title>Admin</title>
   <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="../allFunctions/createJobCards/createJobCards.css">
-
+  <link rel="stylesheet" href="../allFunctions/createNavBar/createNavBar.css">
   <script src="../allFunctions/Sanitization/checkValidInputs.js"></script>
 
   <script src="../allFunctions/createJobCards/createJobCards.js"></script>
 </head>
 <body>
+  <?php
+    createNavBar("home");
+  ?>
+
   <!-- section ------------------------------------------- -->
-   <div id="pageHeader"><h1>Admin</h1></div>
 
   <div id="overview">
     <!-- left side of the OverView -->
@@ -77,6 +92,7 @@
   </div>
   
   <script src="admin.js"></script>
+  <script src="../allFunctions/createNavBar/createNavBar.js"></script>
 </body>
 
 </html>

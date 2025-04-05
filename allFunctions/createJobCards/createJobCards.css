@@ -28,8 +28,9 @@
   margin: 15px 15px 0px;
 }
 
-.createJobCardApplicantStatus_applied {
+.createJobCardApplicantStatus_pending {
   background-color: blue;
+  color: white;
 }
 
 .createJobCardApplicantStatus_interviewing {

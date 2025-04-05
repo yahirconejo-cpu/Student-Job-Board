@@ -1,6 +1,8 @@
 <?php
   include("../allFunctions/createNavBar/createNavBar.php");
   include_once("../allFunctions/connectPDO.php");
+  include_once("../allFunctions/checks/checkLogin.php");
+  include_once("../allFunctions/checks/fetchUserInfo.php");
 
   $indexPDO = connectedPDO();
 ?>
@@ -9,7 +11,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>replit</title>
+    <title>Job Posts</title>
     <link rel="stylesheet" href="aHome.css" >
     <link rel="stylesheet" href="../allFunctions/createJobCards/createJobCards.css">
   

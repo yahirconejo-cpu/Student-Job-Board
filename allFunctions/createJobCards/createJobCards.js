@@ -173,7 +173,6 @@ function updateJobStatus(postId, newStatus, cardElement) {
 
   xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
-          console.log(`Job ${postId} updated to ${newStatus}:`, xhr.responseText);
           cardElement.remove();
       }
   };
@@ -208,8 +207,6 @@ function noFoundQueryResponse(container, text){
 // parm 1 @ container - string - the id of the container that will hold the job cards
 // parm 2 @ quryCondition - object - uses key to check if value is equle to it {"owner": "bob", "status": "accepted", "jobTitle": "Computer Science"} should also be a { "owner" : null} option which will just pull the current user through session
 function createJobCardInitialize(container, quryCondition) {
-
-  
   let xhr = new XMLHttpRequest();
   xhr.open("POST", "../allFunctions/createJobCards/createJobCards.php", true);
   xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
@@ -217,8 +214,6 @@ function createJobCardInitialize(container, quryCondition) {
   xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
           let response = JSON.parse(xhr.responseText);// is a list with objects in it
-          // console.log(xhr.responseText);
-          console.log(response);
 
           let containerElement = document.getElementById(container);
           //containerElement.innerHTML = ""; // Clear existing job cards
@@ -228,7 +223,6 @@ function createJobCardInitialize(container, quryCondition) {
           response.forEach(job => {
               // Destructure job properties
               var { type, postId, status, jobTitle, jobDescription, applicantsCount, companyName } = job;
-              console.log(type, status, jobTitle, jobDescription, applicantsCount, companyName );
 
               lastType = type; 
               
@@ -259,9 +253,6 @@ function createJobCardInitialize(container, quryCondition) {
           }else if(lastType === "admin" && containerElement.children.length == 0){
               noFoundQueryResponse(containerElement, "No New Jobs Made");
           }
-
-          
-
       }
   };
 

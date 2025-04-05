@@ -18,7 +18,6 @@ function navHoverOff() {
     navButtons.style.setProperty("--_opaTrans", 600 + "ms")
 }
 
-
 var burgerNav = document.getElementById("burgerNav");
 var burgerOverlay = document.getElementById("burgerOverlay");
 var burgerOverlayA = document.querySelectorAll("#burgerOverlay a");

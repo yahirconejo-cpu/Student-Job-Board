@@ -1,12 +1,11 @@
 <?php
     include_once("../connectPDO.php");
-
+    session_start();
+    $myPDO = connectedPDO();
     if(isset($_POST['table']) && isset($_POST['column'])){
 
         $table = $_POST['table'];
         $column = $_POST['column'];
-
-        $myPDO = connectedPDO();
 
         if ($table == 'SettingsOptions') {
 
@@ -34,7 +33,7 @@
             // need it to work with sessions eventally for user id ****************************************************************************************
             $getUserSettings = $myPDO->prepare("SELECT $column FROM Settings WHERE userid = ?");
             $getUserSettings->execute([
-                 1
+                 $_SESSION['userid']
             ]);
             $settings = $getUserSettings->fetch(PDO::FETCH_ASSOC);
 
@@ -67,8 +66,6 @@
     
         // Convert the array back to a JSON string for storage
         $chosenListJson = json_encode($chosenList);
-        
-        $myPDO = connectedPDO();
 
         // $columnsQuery = $myPDO->query("PRAGMA table_info(Settings)");
         // $columns = $columnsQuery->fetchAll(PDO::FETCH_COLUMN, 1);
@@ -86,7 +83,7 @@
         $stmt = $myPDO->prepare($query);
         $stmt->execute([
             ':chosenList' => $chosenListJson,
-            ':currentUserId' => 1
+            ':currentUserId' => $_SESSION['userid']
         ]);
 
         // $columnsQuery = $myPDO->query("PRAGMA table_info(Settings)");

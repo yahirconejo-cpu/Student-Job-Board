@@ -1,6 +1,8 @@
 <?php
   include_once("../allFunctions/createNavBar/createNavBar.php");
   include_once("../allFunctions/connectPDO.php");
+  include_once("../allFunctions/checks/checkLogin.php");
+  include_once("../allFunctions/checks/fetchUserInfo.php");
 
   $indexPDO = connectedPDO();
 ?>
@@ -19,7 +21,7 @@
 <body>
 
     <?php
-      createNavBar("search");
+      createNavBar("create");
     ?>
 
     <div id="jobFormSection">
@@ -85,40 +87,7 @@
             <button type="submit" onclick="createJobPost()">Post Job</button>
 
             <div id="responseMessage">
-                <?php
-                    $indexPDO = connectedPDO();
-
-                    $query = "SELECT * FROM JobPosts"; // Select everything from JobPosts table
-                    $stmt = $indexPDO->query($query); // Execute the query
-                    
-                    // Fetch all rows from the query result
-                    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    
-                    // Start the table
-                    echo "<table border='1'>";
-                    
-                    // Generate the table headers dynamically
-                    if (!empty($rows)) {
-                        echo "<tr>";
-                        foreach (array_keys($rows[0]) as $column) {
-                            echo "<th>{$column}</th>";
-                        }
-                        echo "</tr>";
-                    }
-                    
-                    // Generate the table rows
-                    foreach ($rows as $row) {
-                        echo "<tr>";
-                        foreach ($row as $cell) {
-                            echo "<td>{$cell}</td>";
-                        }
-                        echo "</tr>";
-                    }
-                    
-                    // Close the table
-                    echo "</table>";
-                   
-                ?>
+    
             </div>
         </div>
     </div>

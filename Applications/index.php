@@ -4,10 +4,12 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include_once("../allFunctions/connectPDO.php");
+include_once("../allFunctions/checks/checkLogin.php");
+include_once("../allFunctions/checks/fetchUserInfo.php");
 
 $pdo = connectedPDO();
-$currentUserId = 1; // Test ID
-$userType = 'student'; // Change to 'employer' for employer view
+$currentUserId = $_SESSION['userid'];
+$userType = returnUserType();
 
 $jobpostid = isset($_GET['postid']) ? intval($_GET['postid']) : 0;
 
@@ -23,6 +25,14 @@ if (!$job) {
 // Fetch job applications related to this job post (for employer view)
 $stmtApplications = $pdo->prepare("SELECT * FROM Applications WHERE jobpostid = :postid");
 $stmtApplications->execute([':postid' => $jobpostid]);
+
+$stmtAllApplications = $pdo->prepare("SELECT * FROM Applications WHERE jobpostid = :postid AND userid = :userid");
+$stmtAllApplications->execute([':postid' => $jobpostid, ':userid' => $currentUserId]);
+$allApplications = $stmtAllApplications -> fetch(PDO::FETCH_ASSOC);
+
+if(isset($allApplications['status'])){
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +46,7 @@ $stmtApplications->execute([':postid' => $jobpostid]);
 <body>
 
 <h2><?= $userType == 'employer' ? "All Job Applications" : "Submit your application!" ?></h2>
-<a href="../Search/index.php" class="exit-button">✖</a>
+<a onClick="window.location.href = document.referrer;" class="exit-button">✖</a>
 <div class="application-box">
     <!-- Student Section: Display Job Post Details & Application Form -->
     <div class="application-card">
@@ -47,7 +57,7 @@ $stmtApplications->execute([':postid' => $jobpostid]);
         <p><strong>Pay:</strong> $<?= htmlspecialchars(number_format((float) $job['pay'], 2)) ?>/hr</p>
         <p><strong>Location:</strong> <?= htmlspecialchars($job['address'] ?? 'N/A') ?></p>
         <p><strong>Description:</strong> <?= nl2br(htmlspecialchars($job['description'])) ?></p>
-    <?php if ($userType == 'student'): ?>
+    <?php if ($userType == 'student' && !isset($allApplications['status'])): ?>
         <form class="applyForm" enctype="multipart/form-data">
             <input type="hidden" name="postid" value="<?= isset($_GET['postid']) ? htmlspecialchars($_GET['postid']) : '' ?>">
             <label for="resume">Upload Resume (PDF, PNG, JPG):</label>

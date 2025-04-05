@@ -13,8 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fileName = $_FILES['resume']['name'];
             $fileType = $_FILES['resume']['type'];
 
-            //$currentUserId = $_SESSION['userid']; // Uncomment if using sessions
-            $currentUserId = 1;
+            $currentUserId = $_SESSION['userid']; // Uncomment if using sessions
 
             // Allowed file types
             $allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];

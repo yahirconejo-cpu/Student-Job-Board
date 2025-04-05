@@ -39,7 +39,7 @@
             ':poststatus' => 'accepting'  // Set default post status
         ]);
 
-        
+        echo 'Success!';
     } else {
         // Handle the error case where one of the required fields is missing or empty
         echo "All required fields must be filled out.";

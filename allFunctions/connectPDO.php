@@ -1,6 +1,6 @@
 <?php
     function connectedPDO() {
-        $dbPath = '/workspaces/TheKnow/Data/Website2.db';
+        $dbPath = 'C:\wamp64\www\TheKnow-main\Data\Website2.db';
         try {
             $pdo = new PDO('sqlite:' . $dbPath);
             return $pdo;
