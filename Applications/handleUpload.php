@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 
 include_once("../allFunctions/connectPDO.php");
 $pdo = connectedPDO(); // Ensure database connection is established
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['resume']) && $_FILES['resume']['error'] === UPLOAD_ERR_OK) {

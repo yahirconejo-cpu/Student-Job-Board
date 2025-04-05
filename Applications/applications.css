@@ -34,6 +34,7 @@ h2 {
     justify-content: center;
     font-weight: bold;
     transition: 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 .exit-button:hover {
