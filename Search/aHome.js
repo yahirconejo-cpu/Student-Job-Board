@@ -1,5 +1,5 @@
 
-createJobCardInitialize("searchSectionResultsContainer");
+createJobCardInitialize("searchSectionResultsContainer", { "owner" : null});
 
 var jobTitle = "";
 const jobTitleInput = document.querySelector("input[name='jobTitle']");
@@ -19,10 +19,11 @@ var selectedDays = [];
 const checkboxes = document.querySelectorAll("input[name='days[]']");
 checkboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", (e) => {
+        const dayPattern = "%" + e.target.value + "%";
         if (e.target.checked) {
-            selectedDays.push(e.target.value);
+            selectedDays.push(dayPattern);
         } else {
-            selectedDays = selectedDays.filter(day => day !== e.target.value);
+            selectedDays = selectedDays.filter(day => day !== dayPattern);
         }
         updateQuery();
     });
@@ -30,7 +31,7 @@ checkboxes.forEach((checkbox) => {
 
 
 function updateQuery(){
-    let cardQuery = {};
+    let cardQuery = {"owner" : null};
     if(jobTitle != ""){
         cardQuery["jobtitle"] = jobTitle;
     }
@@ -40,6 +41,7 @@ function updateQuery(){
     if(selectedDays.length != 0){
         cardQuery["jobdays"] = selectedDays;
     }
+
 
     document.getElementById("searchSectionResultsContainer").innerHTML = "";
 

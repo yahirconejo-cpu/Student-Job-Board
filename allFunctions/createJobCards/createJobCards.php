@@ -22,6 +22,7 @@
         exit;
     }
 
+
     $queryConditions =  json_decode($_POST['cardQuery'], true);
     
 
@@ -33,33 +34,53 @@
 
     $conditions = [];
     $params = [];
+
+    $currentUserId = $_SESSION['userid']; 
+
     
-    //  && $queryConditions->owner == ""
 
    if ($queryConditions != null) {
 
-        // only run if the user put owner = null 
-        if (array_key_exists( "owner", $queryConditions) && empty($queryConditions->owner)) {
-            // Handle the case when 'owner' exists and is null
-            $currentUserId = $_SESSION['userid'];
+        if (!array_key_exists( "owner", $queryConditions) || !empty($queryConditions->owner)) {
             $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
             $userTypeQuery->execute([
                 $currentUserId
             ]);
             $userType = $userTypeQuery->fetchColumn();
-
-        }
-        
-        // // Build SQL query based on provided conditions
-
+        };
+    
+        // Build SQL query based on provided conditions
         foreach ($queryConditions as $key => $value) {
             if ($value !== null) {
-                array_push($conditions, "$key = ?");
-                array_push($params,  $value);
+                if(is_array($value)){
+                    foreach( $value as $subValue){
+                        if(str_contains($subValue,"%")) {
+                            array_push($conditions, "$key LIKE ?");
+                            array_push($params,  $subValue);
+                        }else{
+                            array_push($conditions, "$key = ?");
+                            array_push($params,  $subValue);  
+                        }
+                    }
+                }else{
+                    if(str_contains($value,"%")) {
+                        array_push($conditions, "$key LIKE ?");
+                        array_push($params,  $value);
+                    }else{
+                        array_push($conditions, "$key = ?");
+                        array_push($params,  $value);  
+                    }
+                }
+                
             }
         }
-
-    } 
+    } else{
+        $userTypeQuery = $myPDO->prepare("SELECT usertype FROM Users WHERE id = ?");
+        $userTypeQuery->execute([
+            $currentUserId
+        ]);
+        $userType = $userTypeQuery->fetchColumn();
+    }
 
 
 
@@ -159,8 +180,9 @@
             JobPosts.description AS jobDescription
         FROM JobPosts
         INNER JOIN Users ON JobPosts.userid = Users.id
-        LEFT JOIN Applications ON JobPosts.id = Applications.jobpostid 
-                            AND Applications.userid = ? 
+        LEFT JOIN Applications 
+            ON JobPosts.id = Applications.jobpostid 
+            AND Applications.userid = ? 
         WHERE JobPosts.adminstatus = 'accepted' 
         AND JobPosts.poststatus = 'accepting'
         AND Applications.id IS NULL";
@@ -168,6 +190,8 @@
         if (!empty($conditions)) {
             $sql .= " AND " . implode(" AND ", $conditions);
         }
+
+        array_unshift($params, $currentUserId);
 
         $stmt = $myPDO->prepare($sql);
         $stmt->execute($params);

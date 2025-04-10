@@ -57,7 +57,7 @@
         <div id="applicationsContainer" class="rightSideBarSections">
           <div id="applicationBoxContainer">
             <script>
-              createJobCardInitialize("applicationBoxContainer", { "owner" : null});
+              createJobCardInitialize("applicationBoxContainer");
             </script>
           </div>
         </div>    
