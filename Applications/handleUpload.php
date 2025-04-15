@@ -42,15 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $jobpostid = intval($_POST['postid']); // Convert to integer for security
-            
+            $motivation = $_POST['motivation'];
             // Insert into database
-            $stmt = $pdo->prepare("INSERT INTO Applications (userid, jobpostid, resumes, status) VALUES (:userid, :jobpostid, :resumes, :status)");
+            $stmt = $pdo->prepare("INSERT INTO Applications (userid, jobpostid, resumes, status, response) VALUES (:userid, :jobpostid, :resumes, :status, :response)");
             
             if (!$stmt->execute([
                 ':userid' => $currentUserId,
                 ':jobpostid' => $jobpostid,
                 ':resumes' => $newFileName,
-                ':status' => 'pending'
+                ':status' => 'pending',
+                ':response' => $motivation
             ])) {
                 echo "❌ Database error: Could not insert application.";
                 exit;
