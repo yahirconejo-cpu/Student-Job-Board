@@ -111,14 +111,14 @@
         </div>
       </div>
     </div>
-    <div id="section2">
+    <!-- <div id="section2">
       <div id="section2InfoText">
           <h1>Trouble Signing in?</h1>
           <p>Contact your school cousuler</p>
           <h1>Want to Sign up?</h1>
           <p> Are you a company and need some extra help? You can contact (school name) at (email) to put job postings</p>
       </div>
-    </div>
+    </div> -->
     <script src="allFunctions/Sanitization/checkValidInputs.js"></script>
     <script src="home.js"></script>
   </body>
