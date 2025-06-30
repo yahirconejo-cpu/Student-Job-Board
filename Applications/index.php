@@ -54,6 +54,7 @@ if (isset($allApplications['status'])) {
     <div class="jobpost-card">
         <h3>Job Details</h3>
         <p><strong>Title:</strong> <?= htmlspecialchars($job['posttitle']) ?></p>
+        <p><strong>Job Title:</strong> <?=htmlspecialchars($job['jobtitle'])?></p>
         <p><strong>Type:</strong> <?= htmlspecialchars($job['jobtype']) ?></p>
         <p><strong>Days:</strong> <?= htmlspecialchars($job['jobdays']) ?></p>
         <p><strong>Shifts:</strong> <?= htmlspecialchars($job['shifts']) ?></p>
